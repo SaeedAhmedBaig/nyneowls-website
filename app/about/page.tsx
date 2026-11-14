@@ -8,7 +8,7 @@ import { Section, SectionHead } from "@/components/primitives/Section";
 import { CtaButton, TextLink } from "@/components/primitives/Cta";
 
 export const metadata: Metadata = {
-  title: "About Nyne Owls",
+  title: "About",
   description:
     "About Nyne Owls, a creative and technology company working across design, software, digital goods and stories.",
 };
