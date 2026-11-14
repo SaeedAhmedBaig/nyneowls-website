@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { SITE } from "@/lib/seo";
+import { organizationSchema, websiteSchema } from "@/lib/schema";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -48,30 +49,12 @@ export const viewport: Viewport = {
   ],
 };
 
-const orgSchema = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: SITE.name,
-  alternateName: ["nyneowls", "Nyne Owls Studio"],
-  url: SITE.url,
-  email: SITE.email,
-  description: SITE.description,
-};
-
-const siteSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: SITE.name,
-  alternateName: ["nyneowls"],
-  url: SITE.url,
-};
-
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-GB" suppressHydrationWarning className={inter.variable}>
       <body>
-        <JsonLd data={orgSchema} />
-        <JsonLd data={siteSchema} />
+        <JsonLd data={organizationSchema()} />
+        <JsonLd data={websiteSchema()} />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <a
             href="#main"

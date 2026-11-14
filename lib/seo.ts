@@ -8,9 +8,14 @@ export const SITE = {
   description:
     "Nyne Owls is a design and technology studio. We design brands, build business software and create original stories, all in one place.",
   email: "hello@nyneowls.com",
+  // Square PNG in /public, at least 112x112 (512x512 here). Replace the file, keep the name.
+  logo: "https://www.nyneowls.com/logo.png",
+  // Full URLs of your official profiles (Instagram, LinkedIn, Behance, X, YouTube...).
+  // Add them as you create them: they help search and AI systems recognise the brand as one entity.
+  sameAs: [] as string[],
 };
 
-/** Turn a site path like "/about" into a full URL. Used by robots.ts and sitemap.ts. */
+/** Turn a site path like "/about" into a full URL. Used by robots.ts, sitemap.ts and schema.ts. */
 export function absoluteUrl(path = ""): string {
   return `${SITE.url}${path}`;
 }
