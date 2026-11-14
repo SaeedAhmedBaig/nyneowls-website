@@ -35,7 +35,10 @@ export async function POST(req: Request) {
   const from = process.env.CONTACT_FROM;
   if (!key || !to || !from) {
     console.error("Contact form: missing RESEND_API_KEY, CONTACT_TO or CONTACT_FROM");
-    return NextResponse.json({ ok: false, error: "Sending is not set up yet." }, { status: 500 });
+    return NextResponse.json(
+  { ok: false, error: "Our form is not accepting messages yet. Please email hello@nyneowls.com and we will reply." },
+  { status: 500 }
+);
   }
 
   const text = [
