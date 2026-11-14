@@ -1,0 +1,207 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* shadcn mappings */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Nyne Owls brand tokens */
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-onink: var(--onink);
+  --color-line: var(--line);
+  --color-card2: var(--card2);
+  --color-dark: var(--dark);
+  --color-nyne: var(--nyne);
+  --color-nyne-text: var(--nyne-text);
+
+  --font-sans: var(--font-inter), Arial, Helvetica, sans-serif;
+  --font-heading: var(--font-sans);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-4xl: 0px;
+}
+
+:root {
+  --paper: #f8f7f4;
+  --ink: #171717;
+  --onink: #ffffff;
+  --muted: #6f6b66;
+  --line: #e2dfd9;
+  --card: #efede8;
+  --card2: #dedbd5;
+  --dark: #363431;
+  --nyne: #fc1906;
+  --nyne-text: #c91400;
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--onink);
+  --secondary: var(--card);
+  --secondary-foreground: var(--ink);
+  --muted-foreground: var(--muted);
+  --accent: var(--card2);
+  --accent-foreground: var(--ink);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--nyne);
+  --radius: 0px;
+}
+
+.dark {
+  --paper: #1f1e1c;
+  --ink: #f4f2ee;
+  --onink: #1f1e1c;
+  --muted: #b3ada5;
+  --line: #3b3935;
+  --card: #292826;
+  --card2: #34322f;
+  --dark: #2f2d2b;
+  --nyne-text: #ff5a47;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    scroll-padding-top: 90px;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: var(--nyne);
+    color: #fff;
+  }
+}
+
+@utility wrap {
+  width: min(1440px, calc(100% - 72px));
+  margin-inline: auto;
+  @media (max-width: 760px) {
+    width: calc(100% - 40px);
+  }
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.75s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.75s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--d, 0ms);
+}
+.reveal[data-in] {
+  opacity: 1;
+  transform: none;
+}
+@media (scripting: none), (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Marquee (colour is set in Marquee.tsx) */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+  will-change: transform;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+.marquee-item::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--nyne);
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* Hero ambient motion */
+.hero-grid {
+  animation: grid-drift 60s linear infinite;
+}
+@keyframes grid-drift {
+  to {
+    background-position: 64px 64px;
+  }
+}
+.hero-pulse > div > span:first-child {
+  animation: dot-pulse 2.6s ease-in-out infinite;
+}
+@keyframes dot-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.8);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-grid,
+  .hero-pulse > div > span:first-child {
+    animation: none;
+  }
+}
