@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { autoReply, getMailConfig, sendEmail, teamNotification } from "@/lib/email";
 
 const schema = z.object({
   subject: z.string().min(1).max(120),
@@ -11,8 +12,6 @@ const schema = z.object({
     .max(15),
 });
 
-const clean = (s: string) => s.replace(/[\r\n]+/g, " ").trim();
-
 export async function POST(req: Request) {
   let json: unknown;
   try {
@@ -23,46 +22,70 @@ export async function POST(req: Request) {
 
   const parsed = schema.safeParse(json);
   if (!parsed.success) {
-    return NextResponse.json({ ok: false, error: "Please check your details and try again." }, { status: 400 });
+    return NextResponse.json(
+      { ok: false, error: "Please check your details and try again." },
+      { status: 400 }
+    );
   }
   const data = parsed.data;
 
   // Spam trap: pretend success, send nothing.
   if (data.website) return NextResponse.json({ ok: true });
 
-  const key = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_TO;
-  const from = process.env.CONTACT_FROM;
-  if (!key || !to || !from) {
+  const config = getMailConfig();
+  if (!config) {
     console.error("Contact form: missing RESEND_API_KEY, CONTACT_TO or CONTACT_FROM");
     return NextResponse.json(
-  { ok: false, error: "Our form is not accepting messages yet. Please email hello@nyneowls.com and we will reply." },
-  { status: 500 }
-);
+      {
+        ok: false,
+        error: "Our form is not accepting messages yet. Please email hello@nyneowls.com and we will reply.",
+      },
+      { status: 500 }
+    );
   }
 
-  const text = [
-    `From: ${clean(data.name ?? "")} <${data.email}>`,
-    "",
-    ...data.fields.map((f) => `${f.label}: ${f.value || "(not provided)"}`),
-  ].join("\n");
+  const input = {
+    subject: data.subject,
+    name: data.name,
+    email: data.email,
+    fields: data.fields,
+  };
 
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      from,
-      to: [to],
-      reply_to: data.email,
-      subject: `[Website] ${clean(data.subject)}`,
-      text,
-    }),
+  // CONTACT_TO may hold one address or several, separated by commas.
+  const recipients = config.to
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  // 1. Notify the team. This is the email that must succeed.
+  const team = teamNotification(input);
+  const teamSent = await sendEmail(config.key, {
+    from: config.from,
+    to: recipients,
+    reply_to: data.email,
+    subject: team.subject,
+    html: team.html,
+    text: team.text,
   });
 
-  if (!res.ok) {
-    console.error("Contact form: Resend error", res.status, await res.text());
-    return NextResponse.json({ ok: false, error: "We could not send your message. Please email us directly." }, { status: 502 });
+  if (!teamSent) {
+    return NextResponse.json(
+      { ok: false, error: "We could not send your message. Please email us directly." },
+      { status: 502 }
+    );
   }
+
+  // 2. Confirm to the visitor. Best effort: a failure here must not fail the request,
+  //    because the team already has the enquiry.
+  const reply = autoReply(input);
+  await sendEmail(config.key, {
+    from: config.from,
+    to: [data.email],
+    reply_to: recipients[0],
+    subject: reply.subject,
+    html: reply.html,
+    text: reply.text,
+  });
 
   return NextResponse.json({ ok: true });
 }
