@@ -3,8 +3,7 @@
 // served by app/[doc]/page.tsx. When you add a page, add its path here.
 
 import type { MetadataRoute } from "next";
-
-const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.nyneowls.com").replace(/\/$/, "");
+import { absoluteUrl } from "@/lib/seo";
 
 // Update this date when page content meaningfully changes. A fixed date is more
 // honest to search engines than "now", which would claim every page changed on every build.
@@ -38,7 +37,7 @@ const entries: Entry[] = [
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return entries.map(({ path, priority, changeFrequency }) => ({
-    url: `${SITE}${path}`,
+    url: absoluteUrl(path),
     lastModified: LAST_UPDATED,
     changeFrequency,
     priority,

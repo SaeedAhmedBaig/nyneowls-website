@@ -10,6 +10,15 @@ export const SITE = {
   email: "hello@nyneowls.com",
 };
 
+/** Turn a site path like "/about" into a full URL. Used by robots.ts and sitemap.ts. */
+export function absoluteUrl(path = ""): string {
+  return `${SITE.url}${path}`;
+}
+
+/**
+ * Per-page metadata. Next.js replaces (not merges) the nested `openGraph` object from the
+ * root layout, so anything the layout sets there, such as `locale`, must be repeated here.
+ */
 export function pageMeta({
   title,
   description,
@@ -26,6 +35,7 @@ export function pageMeta({
     openGraph: {
       type: "website",
       siteName: SITE.name,
+      locale: "en_GB",
       title: `${title} | ${SITE.name}`,
       description,
       url: path,
