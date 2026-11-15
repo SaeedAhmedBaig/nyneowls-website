@@ -8,6 +8,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
 import type { BlogCitation, BlogPost } from "@backend/blog/database";
 import { saveBlogPost, type BlogActionState } from "@backend/blog/actions";
+import { Select } from "@/components/primitives/Select";
 
 type CitationFormValue = Pick<
   BlogCitation,
@@ -17,7 +18,9 @@ type CitationField = Exclude<keyof CitationFormValue, "key" | "order_index">;
 
 const initialState: BlogActionState = {};
 const inputClass =
-  "w-full border border-line bg-paper px-3.5 py-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nyne";
+  "h-[50px] w-full border border-line bg-paper px-3.5 py-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nyne";
+const textareaClass =
+  "w-full resize-y border border-line bg-paper px-3.5 py-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nyne";
 const labelClass = "grid gap-2 text-xs font-semibold";
 const toolbarClass =
   "min-h-9 border border-line px-2.5 text-xs font-semibold transition-colors hover:bg-card disabled:opacity-40";
@@ -77,19 +80,20 @@ function EditorToolbar({
       >
         Add link
       </button>
-      <label className="flex items-center gap-1 border border-line px-2 text-xs">
-        Source
-        <select
-          aria-label="Citation number"
-          className="min-h-8 bg-paper px-1 font-semibold"
-          value={citationNumbers.includes(citationNumber) ? citationNumber : citationNumbers[0] ?? 0}
+      <div className="flex items-center gap-1 border border-line px-2 text-xs">
+        <span id="citation-number-label">Source</span>
+        <Select
+          id="citation-number"
+          labelId="citation-number-label"
+          options={citationNumbers.map((number) => ({ value: String(number), label: String(number) }))}
+          value={citationNumbers.length ? String(citationNumber) : ""}
+          onChange={(value) => onCitationNumberChange(Number(value))}
+          placeholder="-"
           disabled={!citationNumbers.length}
-          onChange={(event) => onCitationNumberChange(Number(event.target.value))}
-        >
-          {!citationNumbers.length && <option value={0}>-</option>}
-          {citationNumbers.map((number) => <option key={number} value={number}>{number}</option>)}
-        </select>
-      </label>
+          variant="light"
+          triggerClassName="h-8 min-h-8 w-[72px] px-2 py-1 text-xs"
+        />
+      </div>
       <button
         type="button"
         className={toolbarClass}
@@ -177,6 +181,7 @@ export function BlogEditor({ post }: { post?: BlogPost }) {
     post?.citations[0] ? post.citations[0].order_index + 1 : 1
   );
   const [citationError, setCitationError] = useState("");
+  const [publicationStatus, setPublicationStatus] = useState<BlogPost["status"]>(post?.status ?? "draft");
   const [citations, setCitations] = useState<CitationFormValue[]>(
     () =>
       post?.citations.map((citation) => ({
@@ -250,9 +255,10 @@ export function BlogEditor({ post }: { post?: BlogPost }) {
       {post && <input type="hidden" name="id" value={post.id} />}
       <input type="hidden" name="bodyHtml" value={bodyHtml} />
       <input type="hidden" name="citationsJson" value={citationsJson} />
+      <input type="hidden" name="status" value={publicationStatus} />
 
-      <section className="grid gap-5 border-b border-line pb-8 min-[901px]:grid-cols-2">
-        <label className={`${labelClass} min-[901px]:col-span-2`}>
+      <section className="grid gap-5 border-b border-line pb-8 min-[761px]:grid-cols-2">
+        <label className={`${labelClass} min-[761px]:col-span-2`}>
           Article title
           <input
             className={inputClass}
@@ -288,9 +294,9 @@ export function BlogEditor({ post }: { post?: BlogPost }) {
           Author name
           <input className={inputClass} name="authorName" defaultValue={post?.author_name ?? "Nyne Owls"} maxLength={100} required />
         </label>
-        <label className={`${labelClass} min-[901px]:col-span-2`}>
+        <label className={`${labelClass} min-[761px]:col-span-2`}>
           Short summary
-          <textarea className={`${inputClass} min-h-24 resize-y`} name="excerpt" defaultValue={post?.excerpt ?? ""} maxLength={320} required />
+          <textarea className={`${textareaClass} min-h-24`} name="excerpt" defaultValue={post?.excerpt ?? ""} maxLength={320} required />
         </label>
       </section>
 
@@ -376,7 +382,7 @@ export function BlogEditor({ post }: { post?: BlogPost }) {
         )}
       </section>
 
-      <section className="grid gap-5 border-b border-line pb-8 min-[901px]:grid-cols-2">
+      <section className="grid gap-5 border-b border-line pb-8 min-[761px]:grid-cols-2">
         <label className={labelClass}>
           Cover image URL
           <input className={inputClass} name="coverImageUrl" type="url" defaultValue={post?.cover_image_url ?? ""} />
@@ -389,27 +395,36 @@ export function BlogEditor({ post }: { post?: BlogPost }) {
           Tags (comma-separated, max 10)
           <input className={inputClass} name="tags" defaultValue={post?.tags.join(", ") ?? ""} maxLength={400} />
         </label>
-        <label className={labelClass}>
-          Publication status
-          <select className={inputClass} name="status" defaultValue={post?.status ?? "draft"}>
-            <option value="draft">Draft (private)</option>
-            <option value="published">Published</option>
-          </select>
-        </label>
+        <div className={labelClass}>
+          <label id="publication-status-label" htmlFor="publication-status">Publication status</label>
+          <Select
+            id="publication-status"
+            labelId="publication-status-label"
+            options={[
+              { value: "draft", label: "Draft (private)" },
+              { value: "published", label: "Published" },
+            ]}
+            value={publicationStatus}
+            onChange={(value) => {
+              if (value === "draft" || value === "published") setPublicationStatus(value);
+            }}
+            variant="light"
+          />
+        </div>
       </section>
 
-      <section className="grid gap-5 min-[901px]:grid-cols-2">
-        <div className="min-[901px]:col-span-2">
+      <section className="grid gap-5 min-[761px]:grid-cols-2">
+        <div className="min-[761px]:col-span-2">
           <h2 className="text-xl font-bold tracking-[-0.03em]">Search preview</h2>
           <p className="mt-1 text-xs text-muted-foreground">Optional overrides. The article title and summary are used when these are blank.</p>
         </div>
         <label className={labelClass}>
           SEO title
-          <input className={inputClass} name="seoTitle" defaultValue={post?.seo_title ?? ""} maxLength={70} />
+          <input className={`${inputClass} min-h-20`} name="seoTitle" defaultValue={post?.seo_title ?? ""} maxLength={70} />
         </label>
         <label className={labelClass}>
           SEO description
-          <textarea className={`${inputClass} min-h-20 resize-y`} name="seoDescription" defaultValue={post?.seo_description ?? ""} maxLength={160} />
+          <textarea className={`${textareaClass} min-h-20 resize-none`} name="seoDescription" defaultValue={post?.seo_description ?? ""} maxLength={160} />
         </label>
       </section>
 

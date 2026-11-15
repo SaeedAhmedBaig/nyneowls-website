@@ -1,7 +1,13 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
-import { Check, ChevronDown } from "lucide-react";
+import {
+  Select as SelectRoot,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { cn } from "cn";
 
 export type SelectOption = { value: string; label: string; hint?: string };
 
@@ -13,133 +19,78 @@ type Props = {
   onChange: (value: string) => void;
   placeholder?: string;
   invalid?: boolean;
+  disabled?: boolean;
+  variant?: "dark" | "light";
+  triggerClassName?: string;
 };
 
-export function Select({ id, labelId, options, value, onChange, placeholder = "Choose one", invalid }: Props) {
-  const [open, setOpen] = useState(false);
-  const [active, setActive] = useState(0);
-  const root = useRef<HTMLDivElement>(null);
-  const listId = useId();
-  const selectedIndex = options.findIndex((o) => o.value === value);
-  const selected = options[selectedIndex];
-
-  const openList = () => {
-    setActive(selectedIndex >= 0 ? selectedIndex : 0);
-    setOpen(true);
-  };
-  const choose = (i: number) => {
-    onChange(options[i].value);
-    setOpen(false);
-  };
-
-  useEffect(() => {
-    if (!open) return;
-    const onDown = (e: MouseEvent | TouchEvent) => {
-      if (!root.current?.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("mousedown", onDown);
-    document.addEventListener("touchstart", onDown);
-    return () => {
-      document.removeEventListener("mousedown", onDown);
-      document.removeEventListener("touchstart", onDown);
-    };
-  }, [open]);
-
-  useEffect(() => {
-    if (open) document.getElementById(`${listId}-${active}`)?.scrollIntoView({ block: "nearest" });
-  }, [open, active, listId]);
-
-  const onKeyDown = (e: React.KeyboardEvent) => {
-    switch (e.key) {
-      case "ArrowDown":
-        e.preventDefault();
-        if (open) setActive((a) => Math.min(a + 1, options.length - 1));
-        else openList();
-        break;
-      case "ArrowUp":
-        e.preventDefault();
-        if (open) setActive((a) => Math.max(a - 1, 0));
-        else openList();
-        break;
-      case "Home":
-        if (open) {
-          e.preventDefault();
-          setActive(0);
-        }
-        break;
-      case "End":
-        if (open) {
-          e.preventDefault();
-          setActive(options.length - 1);
-        }
-        break;
-      case "Enter":
-      case " ":
-        e.preventDefault();
-        if (open) choose(active);
-        else openList();
-        break;
-      case "Escape":
-        if (open) {
-          e.preventDefault();
-          setOpen(false);
-        }
-        break;
-      case "Tab":
-        setOpen(false);
-        break;
-    }
-  };
+export function Select({
+  id,
+  labelId,
+  options,
+  value,
+  onChange,
+  placeholder = "Choose one",
+  invalid,
+  disabled,
+  variant = "dark",
+  triggerClassName,
+}: Props) {
+  const isDark = variant === "dark";
 
   return (
-    <div ref={root} className="relative">
-      <button
-        type="button"
+    <SelectRoot
+      value={value || undefined}
+      onValueChange={(next) => {
+        if (typeof next === "string") onChange(next);
+      }}
+      itemToStringValue={(next) => options.find((option) => option.value === next)?.label ?? next}
+      disabled={disabled}
+    >
+      <SelectTrigger
         id={id}
-        role="combobox"
-        aria-haspopup="listbox"
-        aria-expanded={open}
-        aria-controls={listId}
-        aria-labelledby={`${labelId} ${id}`}
+        aria-labelledby={labelId}
         aria-invalid={invalid || undefined}
-        aria-activedescendant={open ? `${listId}-${active}` : undefined}
-        onClick={() => (open ? setOpen(false) : openList())}
-        onKeyDown={onKeyDown}
-        className="flex min-h-[50px] w-full items-center justify-between gap-3 border border-white/35 bg-transparent p-3.5 text-left text-base text-white transition-colors hover:border-white/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nyne aria-[invalid=true]:border-[#ff8a7d] min-[761px]:text-sm"
+        className={cn(
+          "h-[50px] min-h-[50px] w-full rounded-none border px-3.5 py-3.5 text-left text-base font-normal whitespace-normal transition-colors focus-visible:border-nyne focus-visible:ring-2 focus-visible:ring-nyne/50 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-[#ff8a7d] min-[761px]:text-sm [&_svg]:size-4",
+          isDark
+            ? "border-white/35 bg-transparent text-white hover:border-white/60 focus-visible:ring-offset-dark data-placeholder:text-white/50 [&_svg]:text-white/75"
+            : "border-line bg-paper text-ink hover:border-nyne focus-visible:ring-offset-paper data-placeholder:text-muted-foreground [&_svg]:text-muted-foreground",
+          triggerClassName
+        )}
       >
-        <span className={selected ? "" : "text-white/40"}>{selected?.label ?? placeholder}</span>
-        <ChevronDown className={`size-4 shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`} aria-hidden />
-      </button>
-
-      {open && (
-        <ul
-          id={listId}
-          role="listbox"
-          aria-labelledby={labelId}
-          className="absolute inset-x-0 z-20 mt-1 max-h-64 overflow-auto border border-white/20 bg-[#1c1b19] py-1 shadow-[0_16px_40px_#00000066]"
-        >
-          {options.map((o, i) => (
-            <li
-              key={o.value}
-              id={`${listId}-${i}`}
-              role="option"
-              aria-selected={o.value === value}
-              onMouseDown={(e) => e.preventDefault()}
-              onMouseEnter={() => setActive(i)}
-              onClick={() => choose(i)}
-              className={`flex min-h-11 cursor-pointer items-center justify-between gap-3 px-3.5 py-2.5 text-white ${
-                i === active ? "bg-white/10" : ""
-              }`}
-            >
-              <span>
-                <span className="block text-sm font-semibold">{o.label}</span>
-                {o.hint && <span className="mt-0.5 block text-xs text-white/55">{o.hint}</span>}
-              </span>
-              {o.value === value && <Check className="size-4 shrink-0 text-nyne" aria-hidden />}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+        <SelectValue placeholder={placeholder} />
+      </SelectTrigger>
+      <SelectContent
+        align="start"
+        alignItemWithTrigger={false}
+        className={cn(
+          "max-w-[calc(100vw-2rem)] rounded-none border py-1 shadow-[0_16px_40px_#00000066] ring-0",
+          isDark ? "border-white/20 bg-[#1c1b19] text-white" : "border-line bg-paper text-ink shadow-lg"
+        )}
+      >
+        {options.map((option) => (
+          <SelectItem
+            key={option.value}
+            value={option.value}
+            className={cn(
+              "min-h-11 cursor-pointer rounded-none px-3.5 py-2.5 text-sm focus:outline-none [&_svg]:text-nyne",
+              isDark
+                ? "text-white data-[highlighted]:bg-white/10 data-[highlighted]:text-white focus:bg-white/10 focus:text-white"
+                : "text-ink data-[highlighted]:bg-card data-[highlighted]:text-ink focus:bg-card focus:text-ink [&_svg]:text-nyne-text"
+            )}
+          >
+            <span className="flex min-w-0 flex-col gap-0.5">
+              <span>{option.label}</span>
+              {option.hint && (
+                <span className={cn("text-xs", isDark ? "text-white/55" : "text-muted-foreground")}>
+                  {option.hint}
+                </span>
+              )}
+            </span>
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </SelectRoot>
   );
 }

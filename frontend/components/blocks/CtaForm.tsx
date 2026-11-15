@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { ArrowUpRight, Check } from "lucide-react";
 import { Eyebrow } from "@/components/primitives/Eyebrow";
 import { Reveal } from "@/components/primitives/Reveal";
+import { Select } from "@/components/primitives/Select";
 
 export type Field = {
   id: string;
@@ -18,7 +19,7 @@ export type Field = {
 type Values = Record<string, string>;
 type Status = "idle" | "sending" | "sent" | "error";
 
-const control =
+const controlClass =
   "w-full border border-white/35 bg-transparent p-3.5 text-base text-white placeholder:text-white/40 focus:outline-2 focus:outline-offset-2 focus:outline-nyne min-[761px]:text-sm";
 
 export function CtaForm({
@@ -38,7 +39,11 @@ export function CtaForm({
   button: string;
   subject: string;
 }) {
-  const { register, handleSubmit, reset, formState } = useForm<Values>();
+  const defaultValues = fields.reduce<Values>((values, field) => {
+    if (field.type === "select") values[field.id] = field.options?.[0] ?? "";
+    return values;
+  }, {});
+  const { register, control: formControl, handleSubmit, reset, formState } = useForm<Values>({ defaultValues });
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
   const [sentTo, setSentTo] = useState("");
@@ -107,41 +112,53 @@ export function CtaForm({
                 <input id={`${id}-website`} type="text" tabIndex={-1} autoComplete="off" {...register("website")} />
               </div>
 
-              {fields.map((f) => (
-                <div key={f.id} className={`grid gap-[7px] ${f.full ? "min-[761px]:col-span-2" : ""}`}>
-                  <label htmlFor={`${id}-${f.id}`} className="text-[10px] font-bold uppercase tracking-[0.11em] text-white/70">
-                    {f.label}
-                  </label>
-                  {f.type === "select" ? (
-                    <select id={`${id}-${f.id}`} className={control} {...register(f.id)}>
-                      {f.options?.map((o) => (
-                        <option key={o} className="text-[#111]">
-                          {o}
-                        </option>
-                      ))}
-                    </select>
-                  ) : f.type === "area" ? (
-                    <textarea id={`${id}-${f.id}`} className={`${control} min-h-[90px] resize-y`} {...register(f.id)} />
-                  ) : (
-                    <input
-                      id={`${id}-${f.id}`}
-                      type={f.type}
-                      autoComplete={f.type === "email" ? "email" : f.id === "n" ? "name" : undefined}
-                      aria-invalid={formState.errors[f.id] ? true : undefined}
-                      className={control}
-                      {...register(f.id, {
-                        required: f.type === "email" || f.required ? "Required" : false,
-                        pattern: f.type === "email" ? { value: /^\S+@\S+\.\S+$/, message: "Enter a valid email" } : undefined,
-                      })}
-                    />
-                  )}
-                  {formState.errors[f.id] && (
-                    <span role="alert" className="text-xs text-[#ff8a7d]">
-                      {formState.errors[f.id]?.message as string}
-                    </span>
-                  )}
-                </div>
-              ))}
+              {fields.map((f) => {
+                const fieldId = `${id ?? "cta"}-${f.id}`;
+                const labelId = `${fieldId}-label`;
+                return (
+                  <div key={f.id} className={`grid min-w-0 gap-[7px] ${f.full ? "min-[761px]:col-span-2" : ""}`}>
+                    <label id={labelId} htmlFor={fieldId} className="text-[10px] font-bold uppercase tracking-[0.11em] text-white/70">
+                      {f.label}
+                    </label>
+                    {f.type === "select" ? (
+                      <Controller
+                        name={f.id}
+                        control={formControl}
+                        render={({ field }) => (
+                          <Select
+                            id={fieldId}
+                            labelId={labelId}
+                            options={(f.options ?? []).map((option) => ({ value: option, label: option }))}
+                            value={field.value ?? ""}
+                            onChange={field.onChange}
+                            variant="dark"
+                            disabled={!f.options?.length}
+                          />
+                        )}
+                      />
+                    ) : f.type === "area" ? (
+                      <textarea id={fieldId} className={`${controlClass} min-h-[90px] resize-y`} {...register(f.id)} />
+                    ) : (
+                      <input
+                        id={fieldId}
+                        type={f.type}
+                        autoComplete={f.type === "email" ? "email" : f.id === "n" ? "name" : undefined}
+                        aria-invalid={formState.errors[f.id] ? true : undefined}
+                        className={controlClass}
+                        {...register(f.id, {
+                          required: f.type === "email" || f.required ? "Required" : false,
+                          pattern: f.type === "email" ? { value: /^\S+@\S+\.\S+$/, message: "Enter a valid email" } : undefined,
+                        })}
+                      />
+                    )}
+                    {formState.errors[f.id] && (
+                      <span role="alert" className="text-xs text-[#ff8a7d]">
+                        {formState.errors[f.id]?.message as string}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
 
               <button
                 type="submit"

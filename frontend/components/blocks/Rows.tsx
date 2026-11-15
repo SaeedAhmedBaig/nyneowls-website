@@ -22,9 +22,9 @@ export function Rows({ items }: { items: RowItem[] }) {
           </h3>
           <p className="text-sm leading-[1.7] text-muted-foreground">{r.text}</p>
           {r.tags && (
-            <ul className="flex list-none flex-wrap gap-1.5 min-[761px]:col-[2/-1] min-[1101px]:col-auto">
+            <ul className="flex list-none flex-wrap content-start items-start gap-1.5 self-start min-[761px]:col-[2/-1] min-[1101px]:col-auto">
               {r.tags.map((t) => (
-                <li key={t} className="border border-line px-[9px] py-1.5 text-[10.5px] font-semibold">
+                <li key={t} className="self-start border border-line px-[9px] py-1.5 text-[10.5px] font-semibold">
                   {t}
                 </li>
               ))}
