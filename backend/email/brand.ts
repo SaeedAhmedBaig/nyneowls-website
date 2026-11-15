@@ -34,33 +34,26 @@ export const BRAND = {
  */
 export const REPLY_WINDOW = "";
 
-/** Divisions, in the same order and wording as the site. Keep `status` honest. */
+/** Practice areas, in the same order and wording as the site. Keep `status` honest. */
 export const DIVISIONS = [
   {
     no: "01",
-    name: "Creative Studio",
-    path: "/creative-studio",
+    name: "Studio",
+    path: "/studio",
     blurb: "Brand identity, graphic design, art direction, packaging and web design.",
     status: "Taking enquiries",
   },
   {
     no: "02",
-    name: "Digital Goods",
-    path: "/digital-goods",
-    blurb: "Licensed design resources with clear previews, formats and licence terms.",
-    status: "Catalogue in preparation",
-  },
-  {
-    no: "03",
-    name: "Digital Solutions",
-    path: "/digital-solutions",
+    name: "Products",
+    path: "/products",
     blurb: "Point of sale software built around real selling and inventory workflows.",
     status: "POS pilot demos in preparation",
   },
   {
-    no: "04",
-    name: "Stories & Comics",
-    path: "/stories-comics",
+    no: "03",
+    name: "Originals",
+    path: "/originals",
     blurb: "Original comics made to read well on a phone.",
     status: "Series in development",
   },
@@ -70,5 +63,4 @@ export const LEGAL_LINKS = [
   { label: "Privacy Policy", path: "/privacy" },
   { label: "Terms", path: "/terms" },
   { label: "Refund Policy", path: "/refunds" },
-  { label: "Licence terms", path: "/licences" },
 ] as const;

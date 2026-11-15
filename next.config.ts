@@ -18,6 +18,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/contact", destination: "/work-with-us", permanent: true },
       { source: "/creative-studio", destination: "/studio", permanent: true },
+      { source: "/digital-goods", destination: "/", permanent: true },
       { source: "/digital-solutions", destination: "/products", permanent: true },
       { source: "/stories-comics", destination: "/originals", permanent: true },
     ];

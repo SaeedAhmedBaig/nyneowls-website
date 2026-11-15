@@ -46,7 +46,7 @@ export function websiteSchema() {
 
 export type Crumb = { name: string; path: string };
 
-/** Breadcrumb trail, e.g. [{name:"Home",path:"/"},{name:"Creative Studio",path:"/creative-studio"}]. */
+/** Breadcrumb trail, e.g. [{name:"Home",path:"/"},{name:"Studio",path:"/studio"}]. */
 export function breadcrumbSchema(crumbs: Crumb[]) {
   return {
     "@context": "https://schema.org",

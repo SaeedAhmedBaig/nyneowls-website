@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nyne Owls
 
-## Getting Started
+The Nyne Owls website is built with Next.js, TypeScript, Tailwind CSS and Supabase.
 
-First, run the development server:
+## Project structure
 
-```bash
+- `app/` contains the Next.js App Router entrypoints, route metadata, API routes and sitemap.
+- `frontend/` contains page implementations, shared UI components, content and browser-safe utilities.
+- `backend/` contains server-only blog and email services, data access and server actions.
+- `supabase/migrations/` contains database schema changes applied to the hosted Supabase project.
+- `public/` contains static assets served by Next.js.
+
+The site remains one Next.js application and one Vercel deployment. `app/` stays at the
+repository root because it is the framework's route entrypoint; it delegates page rendering
+to `frontend/` and server work to `backend/`.
+
+## Local development
+
+```powershell
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Journal CMS setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The public journal is available at `/blog`; authorised editors sign in at `/admin/login`.
+Posts, drafts and citations are stored in Supabase. The admin interface supports creating,
+editing, publishing, unpublishing and deleting articles, plus tags, cover-image URLs,
+search metadata, rich text and numbered source citations.
 
-## Learn More
+1. Create a Supabase project on its free plan.
+2. In the Supabase SQL Editor, run `supabase/migrations/20261115000000_create_blog.sql`.
+3. Create and verify an editor account in Supabase Authentication. Keep public sign-ups disabled.
+4. Copy `.env.example` to `.env.local` and fill in the project URL, anon key, service-role key
+   and a comma-separated `BLOG_ADMIN_EMAILS` allowlist. The allowlist must include the editor
+   account's email. Never expose or commit `SUPABASE_SERVICE_ROLE_KEY`.
+5. Restart the Next.js server. Add the same variables to the production hosting environment
+   before deploying.
 
-To learn more about Next.js, take a look at the following resources:
+The anon key is used only for public reads, and row-level security limits those reads to
+published posts and their citations. Draft and write operations run on the server after the
+authenticated user's email is checked against `BLOG_ADMIN_EMAILS`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The service-role key is a high-privilege secret. Store it only in local/server environment
+settings. If it is ever exposed, rotate it in Supabase immediately.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Validation
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```powershell
+npm run lint
+npm run build
+```

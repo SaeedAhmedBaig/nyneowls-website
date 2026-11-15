@@ -2,10 +2,9 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 const tiles = [
-  { n: "01", title: "Creative", sub: "Identity · Design · Art Direction", href: "/creative-studio", cls: "bg-nyne text-white" },
-  { n: "02", title: "Digital", sub: "Resources · Products · Tools", href: "/digital-goods", cls: "bg-dark text-white" },
-  { n: "03", title: "Solutions", sub: "Software · Systems · Technology", href: "/digital-solutions", cls: "bg-card2 text-ink" },
-  { n: "04", title: "Stories", sub: "Original Worlds · Comics · Publishing", href: "/stories-comics", cls: "bg-card text-ink" },
+  { n: "01", title: "Studio", sub: "Identity · Design · Art Direction", href: "/studio", cls: "bg-nyne text-white" },
+  { n: "02", title: "Products", sub: "Software · Systems · Technology", href: "/products", cls: "bg-dark text-white" },
+  { n: "03", title: "Originals", sub: "Original Worlds · Comics · Publishing", href: "/originals", cls: "bg-card2 text-ink" },
 ];
 
 export function HeroTiles() {
@@ -13,9 +12,9 @@ export function HeroTiles() {
     <div className="w-full max-w-[600px]">
       <div className="mb-[13px] flex justify-between gap-3 text-[9px] font-bold tracking-[0.11em] text-muted-foreground">
         <span>WHAT WE BRING TO THE WORLD</span>
-        <span>NO. 001 — 004</span>
+        <span>NO. 001 — 003</span>
       </div>
-      <div className="grid grid-cols-2 gap-2.5">
+      <div className="grid grid-cols-1 gap-2.5 min-[561px]:grid-cols-3">
         {tiles.map((t) => (
           <Link
             key={t.n}
@@ -35,7 +34,7 @@ export function HeroTiles() {
       </div>
       <div className="mt-[13px] flex justify-between gap-3 text-[9px] font-bold tracking-[0.11em] text-muted-foreground">
         <span>ONE COMPANY.</span>
-        <span>FOUR CREATIVE WORLDS.</span>
+        <span>THREE PRACTICE AREAS.</span>
       </div>
     </div>
   );

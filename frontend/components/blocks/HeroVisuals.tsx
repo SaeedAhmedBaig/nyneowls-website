@@ -38,34 +38,6 @@ export function StudioAside() {
   );
 }
 
-export function GoodsStack() {
-  const sheet =
-    "absolute flex aspect-[3/4] w-[58%] flex-col justify-between p-5 text-[9px] font-bold tracking-[0.11em] transition-transform duration-500";
-  const title = "text-[clamp(22px,2.6vw,32px)] leading-none tracking-[-0.04em]";
-  return (
-    <div className={frame} aria-hidden>
-      <Label left="SAMPLE PACKS" right="ILLUSTRATIVE" />
-      <div className="group relative aspect-[1/.9] w-full">
-        <div data-v className={`${sheet} left-0 top-[8%] -rotate-6 bg-card2 group-hover:-translate-x-3 group-hover:-rotate-12`}>
-          <span>PACK 01</span>
-          <div className="aspect-square w-[46%] rounded-full border-2 border-current opacity-55" />
-          <b className={title}>Type<br />sets</b>
-        </div>
-        <div data-v className={`${sheet} left-[21%] top-0 rotate-2 bg-dark text-white`}>
-          <span>PACK 02</span>
-          <div className="aspect-square w-[46%] border-2 border-current opacity-55" />
-          <b className={title}>Layout<br />kits</b>
-        </div>
-        <div data-v className={`${sheet} right-0 top-[14%] rotate-[8deg] bg-nyne text-white group-hover:translate-x-3 group-hover:rotate-[13deg]`}>
-          <span>PACK 03</span>
-          <div className="aspect-square w-[46%] rounded-full border-2 border-current opacity-55" />
-          <b className={title}>Brand<br />assets</b>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export function ProductStatus() {
   const rows = [
     { name: "Point of Sale", status: "Developed", on: true },
@@ -125,14 +97,13 @@ export function SeriesCover() {
 
 export function AboutAside() {
   const rows = [
-    ["01", "Creative Studio", "Design that gives your ideas a clear identity and direction.", "Taking enquiries"],
-    ["02", "Digital Goods", "Considered resources for people who make things.", "In preparation"],
-    ["03", "Digital Solutions", "Practical software for the way businesses work.", "POS developed"],
-    ["04", "Stories & Comics", "Original worlds, characters and stories.", "In development"],
+    ["01", "Studio", "Design that gives your ideas a clear identity and direction.", "Taking enquiries"],
+    ["02", "Products", "Practical software for the way businesses work.", "POS pilot demos in preparation"],
+    ["03", "Originals", "Original worlds, characters and stories.", "In development"],
   ];
   return (
-    <div className={frame} aria-label="The four divisions">
-      <Label left="ONE COMPANY, FOUR DIVISIONS" right="NYNE OWLS" />
+    <div className={frame} aria-label="Our three practice areas">
+      <Label left="ONE COMPANY, THREE PRACTICE AREAS" right="NYNE OWLS" />
       <div className="border border-line bg-paper">
         {rows.map(([n, name, desc, status]) => (
           <div
@@ -157,14 +128,13 @@ export function AboutAside() {
 
 export function ContactAside() {
   const routes = [
-    ["Design project", "Creative Studio", "/creative-studio#brief"],
-    ["Software demo", "Digital Solutions", "/digital-solutions#demo"],
-    ["Digital goods updates", "Digital Goods", "/digital-goods#notify"],
-    ["Story release updates", "Stories & Comics", "/stories-comics#follow"],
+    ["Design project", "Studio", "/studio#brief"],
+    ["Software demo", "Products", "/products#demo"],
+    ["Story release updates", "Originals", "/originals#follow"],
   ];
   return (
     <div className={frame} aria-label="Where your message goes">
-      <Label left="WHERE YOUR MESSAGE GOES" right="04 ROUTES" />
+      <Label left="WHERE YOUR MESSAGE GOES" right="03 ROUTES" />
       <div className="border border-line bg-paper">
         {routes.map(([label, division, href]) => (
           <Link

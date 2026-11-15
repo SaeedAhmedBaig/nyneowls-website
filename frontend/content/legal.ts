@@ -1,5 +1,3 @@
-import { FEATURES } from "@/lib/site";
-
 export type LegalDoc = {
   slug: string;
   title: string;
@@ -85,12 +83,6 @@ const allLegalDocs: LegalDoc[] = [
         ],
       },
       {
-        heading: "Digital goods",
-        paragraphs: [
-          "Digital goods are licensed, not sold outright. Use is governed by the licence terms and the details on each product page.",
-        ],
-      },
-      {
         heading: "Software",
         paragraphs: [
           "Software is provided under the terms agreed for each product, including support, availability and any trial conditions. Product status shown on this site is accurate at the time of publication.",
@@ -125,19 +117,13 @@ const allLegalDocs: LegalDoc[] = [
   {
     slug: "refunds",
     title: "Refund Policy",
-    description: "How refunds and cancellations work across Nyne Owls divisions.",
-    intro: "How refunds and cancellations will work across our divisions.",
+    description: "How refunds and cancellations work for Nyne Owls services and products.",
+    intro: "How refunds and cancellations work for our services and products.",
     sections: [
       {
         heading: "Overview",
         paragraphs: [
-          "Each division has different refund needs. The rules below apply once the relevant products and services are live.",
-        ],
-      },
-      {
-        heading: "Digital goods",
-        paragraphs: [
-          "Downloads are delivered immediately, so refund rules will be stated on each product page and at checkout before you pay. Faulty or incorrect files will be fixed or replaced.",
+          "The rules below apply once the relevant products and services are live.",
         ],
       },
       {
@@ -160,47 +146,9 @@ const allLegalDocs: LegalDoc[] = [
       },
     ],
   },
-  {
-    slug: "licences",
-    title: "Licence Terms",
-    description: "What you may do with Nyne Owls Digital Goods products.",
-    intro: "What you may do with Digital Goods products.",
-    sections: [
-      {
-        heading: "Overview",
-        paragraphs: [
-          "Digital goods are licensed, not sold. Each product page states which uses it permits, and the product page takes priority over this summary.",
-        ],
-      },
-      {
-        heading: "Personal use",
-        paragraphs: ["Non-commercial projects for yourself. Redistribution is not permitted."],
-      },
-      {
-        heading: "Commercial use",
-        paragraphs: [
-          "Client work and products for sale, within the limits stated on the product page. A product may not be resold or shared as a standalone asset.",
-        ],
-      },
-      {
-        heading: "Extended use",
-        paragraphs: ["Broader or higher-volume use, where a product offers it. Terms are defined per product."],
-      },
-      {
-        heading: "Restrictions",
-        paragraphs: ["Do not redistribute, share or resell the files, or claim them as your own work."],
-      },
-      {
-        heading: "Ownership and questions",
-        paragraphs: [
-          "Nyne Owls keeps ownership of every product. If you need a custom licence, contact us before you buy.",
-        ],
-      },
-    ],
-  },
 ];
 
-export const legalDocs = allLegalDocs.filter((d) => d.slug !== "licences" || FEATURES.goods);
+export const legalDocs = allLegalDocs;
 
 export function getDoc(slug: string) {
   return legalDocs.find((d) => d.slug === slug);
