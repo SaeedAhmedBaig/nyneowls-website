@@ -8,6 +8,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
 import type { BlogCitation, BlogPost } from "@backend/blog/database";
 import { saveBlogPost, type BlogActionState } from "@backend/blog/actions";
+import { blogExample } from "@/content/blogExample";
 import { Select } from "@/components/primitives/Select";
 
 type CitationFormValue = Pick<
@@ -21,7 +22,7 @@ const inputClass =
   "h-[50px] w-full border border-line bg-paper px-3.5 py-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nyne";
 const textareaClass =
   "w-full resize-y border border-line bg-paper px-3.5 py-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nyne";
-const labelClass = "grid gap-2 text-xs font-semibold";
+const labelClass = "grid content-start gap-2 text-xs font-semibold";
 const toolbarClass =
   "min-h-9 border border-line px-2.5 text-xs font-semibold transition-colors hover:bg-card disabled:opacity-40";
 
@@ -176,7 +177,14 @@ export function BlogEditor({ post }: { post?: BlogPost }) {
   const [title, setTitle] = useState(post?.title ?? "");
   const [slug, setSlug] = useState(post?.slug ?? "");
   const [slugEdited, setSlugEdited] = useState(Boolean(post));
+  const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
+  const [authorName, setAuthorName] = useState(post?.author_name ?? "Nyne Owls");
   const [bodyHtml, setBodyHtml] = useState(post?.body_html ?? "<p></p>");
+  const [coverImageUrl, setCoverImageUrl] = useState(post?.cover_image_url ?? "");
+  const [coverImageAlt, setCoverImageAlt] = useState(post?.cover_image_alt ?? "");
+  const [tags, setTags] = useState(post?.tags.join(", ") ?? "");
+  const [seoTitle, setSeoTitle] = useState(post?.seo_title ?? "");
+  const [seoDescription, setSeoDescription] = useState(post?.seo_description ?? "");
   const [citationNumber, setCitationNumber] = useState(
     post?.citations[0] ? post.citations[0].order_index + 1 : 1
   );
@@ -250,12 +258,49 @@ export function BlogEditor({ post }: { post?: BlogPost }) {
     ? citationNumber
     : citationNumbers[0] ?? 1;
 
+  const loadSampleArticle = () => {
+    if (!editor) return;
+    setTitle(blogExample.title);
+    setSlug(blogExample.slug);
+    setSlugEdited(true);
+    setExcerpt(blogExample.excerpt);
+    setAuthorName(blogExample.authorName);
+    const sampleBody = blogExample.bodyHtml.trim();
+    setBodyHtml(sampleBody);
+    editor.commands.setContent(sampleBody);
+    setCoverImageUrl(blogExample.coverImageUrl);
+    setCoverImageAlt(blogExample.coverImageAlt);
+    setTags(blogExample.tags);
+    setPublicationStatus(blogExample.status);
+    setSeoTitle(blogExample.seoTitle);
+    setSeoDescription(blogExample.seoDescription);
+    setCitations(blogExample.citations.map((citation) => ({ ...citation, key: crypto.randomUUID() })));
+    setCitationNumber(1);
+    setCitationError("");
+  };
+
   return (
     <form action={formAction} className="grid gap-8">
       {post && <input type="hidden" name="id" value={post.id} />}
       <input type="hidden" name="bodyHtml" value={bodyHtml} />
       <input type="hidden" name="citationsJson" value={citationsJson} />
       <input type="hidden" name="status" value={publicationStatus} />
+
+      {!post && (
+        <div className="flex flex-wrap items-center gap-3 border border-line bg-card p-4">
+          <button
+            type="button"
+            disabled={!editor}
+            className="min-h-10 border border-line px-4 text-xs font-semibold transition-colors hover:bg-paper disabled:cursor-not-allowed disabled:opacity-50"
+            onClick={loadSampleArticle}
+          >
+            Load complete sample draft
+          </button>
+          <p className="text-xs leading-5 text-muted-foreground">
+            Fills every field with an original, cited article about brand identity and our design services. It stays a draft until you save it.
+          </p>
+        </div>
+      )}
 
       <section className="grid gap-5 border-b border-line pb-8 min-[761px]:grid-cols-2">
         <label className={`${labelClass} min-[761px]:col-span-2`}>
@@ -292,11 +337,11 @@ export function BlogEditor({ post }: { post?: BlogPost }) {
         </label>
         <label className={labelClass}>
           Author name
-          <input className={inputClass} name="authorName" defaultValue={post?.author_name ?? "Nyne Owls"} maxLength={100} required />
+          <input className={inputClass} name="authorName" value={authorName} onChange={(event) => setAuthorName(event.target.value)} maxLength={100} required />
         </label>
         <label className={`${labelClass} min-[761px]:col-span-2`}>
           Short summary
-          <textarea className={`${textareaClass} min-h-24`} name="excerpt" defaultValue={post?.excerpt ?? ""} maxLength={320} required />
+          <textarea className={`${textareaClass} min-h-24`} name="excerpt" value={excerpt} onChange={(event) => setExcerpt(event.target.value)} maxLength={320} required />
         </label>
       </section>
 
@@ -385,15 +430,15 @@ export function BlogEditor({ post }: { post?: BlogPost }) {
       <section className="grid gap-5 border-b border-line pb-8 min-[761px]:grid-cols-2">
         <label className={labelClass}>
           Cover image URL
-          <input className={inputClass} name="coverImageUrl" type="url" defaultValue={post?.cover_image_url ?? ""} />
+          <input className={inputClass} name="coverImageUrl" type="url" value={coverImageUrl} onChange={(event) => setCoverImageUrl(event.target.value)} />
         </label>
         <label className={labelClass}>
           Cover image description
-          <input className={inputClass} name="coverImageAlt" defaultValue={post?.cover_image_alt ?? ""} maxLength={200} />
+          <input className={inputClass} name="coverImageAlt" value={coverImageAlt} onChange={(event) => setCoverImageAlt(event.target.value)} maxLength={200} />
         </label>
         <label className={labelClass}>
           Tags (comma-separated, max 10)
-          <input className={inputClass} name="tags" defaultValue={post?.tags.join(", ") ?? ""} maxLength={400} />
+          <input className={inputClass} name="tags" value={tags} onChange={(event) => setTags(event.target.value)} maxLength={400} />
         </label>
         <div className={labelClass}>
           <label id="publication-status-label" htmlFor="publication-status">Publication status</label>
@@ -420,11 +465,11 @@ export function BlogEditor({ post }: { post?: BlogPost }) {
         </div>
         <label className={labelClass}>
           SEO title
-          <input className={`${inputClass} min-h-20`} name="seoTitle" defaultValue={post?.seo_title ?? ""} maxLength={70} />
+          <input className={`${inputClass} min-h-20`} name="seoTitle" value={seoTitle} onChange={(event) => setSeoTitle(event.target.value)} maxLength={70} />
         </label>
         <label className={labelClass}>
           SEO description
-          <textarea className={`${textareaClass} min-h-20 resize-none`} name="seoDescription" defaultValue={post?.seo_description ?? ""} maxLength={160} />
+          <textarea className={`${textareaClass} min-h-20 resize-none`} name="seoDescription" value={seoDescription} onChange={(event) => setSeoDescription(event.target.value)} maxLength={160} />
         </label>
       </section>
 
