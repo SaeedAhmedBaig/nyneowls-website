@@ -7,33 +7,43 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { BlogSetupNotice } from "@/components/blog/BlogSetupNotice";
 import { getPublishedPost } from "@backend/blog/data";
 import { sanitizeBlogHtml, readingTime } from "@backend/blog/content";
-import { absoluteUrl } from "@/lib/seo";
+import { absoluteUrl, SITE } from "@/lib/seo";
 import { hasPublicBlogConfig } from "@backend/blog/supabase";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  if (!hasPublicBlogConfig()) return { title: "Journal" };
+  if (!hasPublicBlogConfig()) {
+    return { title: "Journal", robots: { index: false, follow: true } };
+  }
   const { slug } = await params;
   const post = await getPublishedPost(slug);
-  if (!post) return { title: "Article not found" };
+  if (!post) return { title: "Article not found", robots: { index: false, follow: false } };
 
   const title = post.seo_title || post.title;
   const description = post.seo_description || post.excerpt;
+  const image = post.cover_image_url || absoluteUrl("/opengraph-image");
   return {
     title,
     description,
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
       type: "article",
-      title,
+      siteName: SITE.name,
+      locale: "en_GB",
+      title: `${title} | ${SITE.name}`,
       description,
       url: `/blog/${post.slug}`,
       publishedTime: post.published_at ?? undefined,
       authors: [post.author_name],
-      ...(post.cover_image_url ? { images: [post.cover_image_url] } : {}),
+      images: [image],
     },
-    twitter: { card: "summary_large_image", title, description },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | ${SITE.name}`,
+      description,
+      images: [image],
+    },
   };
 }
 
@@ -57,9 +67,16 @@ async function Article({ params }: Props) {
     description: post.excerpt,
     datePublished: post.published_at,
     dateModified: post.updated_at,
-    author: { "@type": "Organization", name: post.author_name },
-    publisher: { "@type": "Organization", name: "Nyne Owls" },
+    author: post.author_name === SITE.name
+      ? { "@type": "Organization", name: SITE.name }
+      : { "@type": "Person", name: post.author_name },
+    publisher: {
+      "@type": "Organization",
+      name: SITE.name,
+      logo: { "@type": "ImageObject", url: SITE.logo },
+    },
     url: canonical,
+    inLanguage: "en-GB",
     ...(post.cover_image_url ? { image: [post.cover_image_url] } : {}),
     ...(post.citations.length ? { citation: post.citations.map((citation) => citation.url) } : {}),
   };

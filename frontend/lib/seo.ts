@@ -6,7 +6,7 @@ export const SITE = {
   url: "https://www.nyneowls.com",
   title: "Nyne Owls | Brand Design, Software & Original Stories",
   description:
-    "Nyne Owls is a design and technology studio. We design brands, build business software and create original stories, all in one place.",
+    "Nyne Owls is a creative and technology company working across brand design, business software, and original comics and stories.",
   email: "hello@nyneowls.com",
   // Square PNG in /public, at least 112x112 (512x512 here). Replace the file, keep the name.
   logo: "https://www.nyneowls.com/logo.png",
@@ -44,7 +44,13 @@ export function pageMeta({
       title: `${title} | ${SITE.name}`,
       description,
       url: path,
+      images: [absoluteUrl("/opengraph-image")],
     },
-    twitter: { card: "summary_large_image", title: `${title} | ${SITE.name}`, description },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | ${SITE.name}`,
+      description,
+      images: [absoluteUrl("/opengraph-image")],
+    },
   };
 }

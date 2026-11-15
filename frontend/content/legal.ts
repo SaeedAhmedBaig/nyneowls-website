@@ -31,7 +31,7 @@ const allLegalDocs: LegalDoc[] = [
       {
         heading: "How we use it",
         paragraphs: [
-          "We use your details to reply to your enquiry, prepare proposals, send release or launch updates you asked for, and keep the website secure. We do not sell personal data.",
+          "We use your details to reply to your enquiry, prepare proposals, and keep the website secure. We do not sell personal data.",
         ],
       },
       {

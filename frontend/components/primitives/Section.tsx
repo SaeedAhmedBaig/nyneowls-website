@@ -21,10 +21,12 @@ export function SectionHead({
   eyebrow,
   title,
   text,
+  headingLevel = "h2",
 }: {
   eyebrow: string;
   title: React.ReactNode;
   text?: string;
+  headingLevel?: "h1" | "h2";
 }) {
   return (
     <div className="mb-[clamp(30px,5vw,56px)] grid items-end gap-[clamp(24px,5vw,80px)] md:grid-cols-2">
@@ -32,7 +34,7 @@ export function SectionHead({
         <Reveal>
           <Eyebrow>{eyebrow}</Eyebrow>
         </Reveal>
-        <Reveal as="h2" className="text-[clamp(30px,4vw,56px)] font-bold leading-[1.03] tracking-[-0.04em]">
+        <Reveal as={headingLevel} className="text-[clamp(30px,4vw,56px)] font-bold leading-[1.03] tracking-[-0.04em]">
           {title}
         </Reveal>
       </div>

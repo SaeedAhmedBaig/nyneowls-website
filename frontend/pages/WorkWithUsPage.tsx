@@ -2,25 +2,30 @@ import { Hero } from "@/components/blocks/Hero";
 import { WorkAside } from "@/components/blocks/WorkAside";
 import { ContactForm } from "@/components/blocks/ContactForm";
 import { Steps } from "@/components/blocks/Steps";
+import { Faq } from "@/components/blocks/Faq";
 import { Eyebrow } from "@/components/primitives/Eyebrow";
 import { Section, SectionHead } from "@/components/primitives/Section";
+import { PageStructuredData } from "@/components/seo/JsonLd";
 import { pageMeta } from "@/lib/seo";
 import { EMAIL } from "@/lib/site";
 
+const description =
+  "Contact Nyne Owls about brand and graphic design projects, original story collaborations, or software product pilots.";
+
 export const metadata = pageMeta({
-  title: "Work With Us: Hire, Collaborate or Partner",
-  description:
-    "Hire the Nyne Owls design studio, collaborate on an original story, or partner on a software product. Tell us what you need and we will reply with next steps.",
+  title: "Work With Us",
+  description,
   path: "/work-with-us",
 });
 
 export default function WorkWithUsPage() {
   return (
     <>
+      <PageStructuredData name="Work With Nyne Owls" description={description} path="/work-with-us" type="ContactPage" />
       <Hero
         eyebrow="Work with us"
-        lines={["Three ways", "to work with us."]}
-        lead="Nyne Owls is an early-stage studio. Whether you need design work, want to help make an original story, or want to pilot one of our products, start here."
+        lines={["Work with", "Nyne Owls."]}
+        lead={description}
         visual={<WorkAside />}
       />
 
@@ -58,6 +63,15 @@ export default function WorkWithUsPage() {
           ]}
         />
       </Section>
+
+      <Faq
+        heading="Before you get in touch."
+        items={[
+          { q: "What can I contact Nyne Owls about?", a: "Brand and graphic design, original story collaborations, and software product pilots." },
+          { q: "Does sending an enquiry commit me to a project?", a: "No. It starts a conversation. Scope, timing, price, and terms are agreed in writing before any work starts." },
+          { q: "What happens after I send a message?", a: "A person reads your message and replies with any questions or next steps." },
+        ]}
+      />
     </>
   );
 }

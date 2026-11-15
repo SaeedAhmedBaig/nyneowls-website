@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Hero } from "@/components/blocks/Hero";
 import { ProductStatus } from "@/components/blocks/HeroVisuals";
 import { TabsBlock } from "@/components/blocks/TabsBlock";
@@ -8,23 +7,29 @@ import { Faq } from "@/components/blocks/Faq";
 import { CtaForm } from "@/components/blocks/CtaForm";
 import { Section, SectionHead } from "@/components/primitives/Section";
 import { CtaButton, TextLink } from "@/components/primitives/Cta";
+import { PageStructuredData } from "@/components/seo/JsonLd";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "POS & CRM Software for Retail and Business",
-  description:
-    "Point of sale and CRM software for retailers and growing businesses, built by Nyne Owls.",
-};
+const description =
+  "Nyne Owls has developed retail point-of-sale software and is preparing pilot demonstrations. Its CRM product is in development.";
+
+export const metadata = pageMeta({
+  title: "Retail Point of Sale & CRM Software",
+  description,
+  path: "/products",
+});
 
 export default function ProductsPage() {
   return (
     <>
+      <PageStructuredData name="Nyne Owls Products" description={description} path="/products" />
       <Hero
         eyebrow="Nyne Owls Products"
         lines={["Software that", "fits how you", "work."]}
-        lead="Point of sale and customer software designed around real sales, inventory and customer workflows, with every product described as it truly stands today."
+        lead={description}
         actions={
           <>
-            <CtaButton href="#demo">Book a demo</CtaButton>
+            <CtaButton href="#demo">Request a pilot demo</CtaButton>
             <TextLink href="#status">See product status</TextLink>
           </>
         }
@@ -102,7 +107,7 @@ export default function ProductsPage() {
       <Faq
         heading="Straight answers."
         items={[
-          { q: "Is the POS available now?", a: "The POS is developed. Pilot demonstrations are being prepared, and we will say plainly what is ready." },
+          { q: "Is the POS available now?", a: "The point-of-sale software has been developed, and pilot demonstrations are being prepared. Ask us about its current capabilities and availability." },
           { q: "Is the CRM available?", a: "No. It is in development, and we will share scope and launch criteria once confirmed." },
           { q: "How will software be priced?", a: "Subscription, licence, setup and support models are being validated with customers before pricing is published." },
           { q: "How is security handled?", a: "Access control, backups, privacy and incident response are release gates before public launch." },

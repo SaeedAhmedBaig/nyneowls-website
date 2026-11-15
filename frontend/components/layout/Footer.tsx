@@ -29,11 +29,11 @@ export function Footer() {
           <div className="sm:col-span-2 lg:col-span-1">
             <Logo />
             <p className="mt-4 max-w-[340px] text-[13px] leading-[1.7] text-muted-foreground">
-              Design it. Build it. Tell it. A design and technology studio working across brand design,
-              software and original stories.
+              A creative and technology company working across brand design, business software, and original
+              stories.
             </p>
           </div>
-          <Col title="Divisions" items={divisions} />
+          <Col title="Practice areas" items={divisions} />
           <div>
             <Col title="Company" items={companyNav} />
             <a

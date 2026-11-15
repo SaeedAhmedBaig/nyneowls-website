@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Hero } from "@/components/blocks/Hero";
 import { AboutAside } from "@/components/blocks/HeroVisuals";
 import { CardGrid } from "@/components/blocks/CardGrid";
@@ -6,20 +5,22 @@ import { DataTable } from "@/components/blocks/DataTable";
 import { Faq } from "@/components/blocks/Faq";
 import { Section, SectionHead } from "@/components/primitives/Section";
 import { CtaButton, TextLink } from "@/components/primitives/Cta";
+import { PageStructuredData } from "@/components/seo/JsonLd";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "About",
-  description:
-    "About Nyne Owls, a creative and technology company working across design, software and original stories.",
-};
+const description =
+  "Learn about Nyne Owls, a creative and technology company working across brand design, business software, and original comics and stories.";
+
+export const metadata = pageMeta({ title: "About", description, path: "/about" });
 
 export default function AboutPage() {
   return (
     <>
+      <PageStructuredData name="About Nyne Owls" description={description} path="/about" type="AboutPage" />
       <Hero
         eyebrow="About Nyne Owls"
-        lines={["Create it.", "Solve it.", "Tell it."]}
-        lead="Nyne Owls brings creative practice and practical technology together. Our three practice areas work in different disciplines but share one commitment: thoughtful work, delivered with care, building trust over time."
+        lines={["A creative &", "technology", "company."]}
+        lead="Nyne Owls is a creative and technology company working across brand design, business software, and original comics and stories. Each practice area has its own expertise and a clear next step."
         actions={
           <>
             <CtaButton href="/work-with-us">Get in touch</CtaButton>
@@ -39,9 +40,9 @@ export default function AboutPage() {
         <CardGrid
           cols={3}
           items={[
-            { num: "01", title: "Purpose", text: "To turn ideas into useful, meaningful and well-crafted creative and digital experiences." },
-            { num: "02", title: "Vision", text: "To become a recognised independent creative and technology company, starting with a credible presence and growing into international markets as each division is ready." },
-            { num: "03", title: "Mission", text: "To combine design thinking, practical technology and original storytelling into services and products that help people communicate, operate and experience more effectively." },
+            { num: "01", title: "Purpose", text: "To turn ideas into useful, meaningful creative work and digital experiences." },
+            { num: "02", title: "Vision", text: "To build an independent creative and technology company with clear, well-made services and products." },
+            { num: "03", title: "Mission", text: "To bring together brand and graphic design, practical software, and original storytelling." },
           ]}
         />
       </Section>
@@ -54,7 +55,7 @@ export default function AboutPage() {
             { num: "01", title: "Clarity before complexity", text: "Make the offer and the next step easy to understand." },
             { num: "02", title: "Craft matters", text: "Details, usability and reliability are part of the product." },
             { num: "03", title: "Useful innovation", text: "Technology that solves a real problem." },
-            { num: "04", title: "One standard, many disciplines", text: "Every division meets the same quality bar." },
+            { num: "04", title: "One standard, many disciplines", text: "Every practice area meets the same quality bar." },
             { num: "05", title: "Respect the audience", text: "Honest claims and protected trust." },
             { num: "06", title: "Build for the long term", text: "Maintainable systems and lasting relationships." },
           ]}

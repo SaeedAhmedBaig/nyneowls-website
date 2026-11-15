@@ -1,39 +1,49 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { connection } from "next/server";
 import { BlogPostCard } from "@/components/blog/BlogPostCard";
 import { BlogSetupNotice } from "@/components/blog/BlogSetupNotice";
 import { SectionHead } from "@/components/primitives/Section";
+import { PageStructuredData } from "@/components/seo/JsonLd";
+import { pageMeta } from "@/lib/seo";
 import { getPublishedPosts } from "@backend/blog/data";
 import { hasPublicBlogConfig } from "@backend/blog/supabase";
 
 const pageSize = 9;
+const description =
+  "Articles from Nyne Owls on brand and graphic design, retail software, original comics, and the work behind them.";
 
-export const metadata: Metadata = {
-  title: "Journal",
-  description: "Stories from Nyne Owls on design, software, original worlds and the work behind them.",
-  alternates: { canonical: "/blog" },
-};
+type PageSearchParams = Promise<{ page?: string | string[] }>;
 
-async function JournalEntries({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+function getPageNumber(value?: string | string[]) {
+  const parsed = Number(Array.isArray(value) ? value[0] : value);
+  return Number.isSafeInteger(parsed) && parsed > 0 ? parsed : 1;
+}
+
+export async function generateMetadata({ searchParams }: { searchParams: PageSearchParams }) {
+  const params = await searchParams;
+  const page = getPageNumber(params.page);
+  return {
+    ...pageMeta({
+      title: page > 1 ? `Journal — Page ${page}` : "Journal",
+      description,
+      path: page > 1 ? `/blog?page=${page}` : "/blog",
+    }),
+    ...(!hasPublicBlogConfig() ? { robots: { index: false, follow: true } } : {}),
+  };
+}
+
+async function JournalEntries({ searchParams }: { searchParams: PageSearchParams }) {
   await connection();
   if (!hasPublicBlogConfig()) return <BlogSetupNotice />;
 
   const params = await searchParams;
-  const requestedPage = Number(params.page);
-  const page = Number.isSafeInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
+  const page = getPageNumber(params.page);
   const { posts, total } = await getPublishedPosts(page, pageSize);
   const pageCount = Math.ceil(total / pageSize);
 
-  if (pageCount > 0 && page > pageCount) {
-    return (
-      <div className="border border-line bg-card p-8 text-center">
-        <h2 className="text-xl font-bold">That journal page does not exist.</h2>
-        <Link href="/blog" className="mt-4 inline-block text-xs font-semibold underline underline-offset-4">Back to the latest articles</Link>
-      </div>
-    );
-  }
+  if (page > Math.max(1, pageCount)) notFound();
 
   return (
     <>
@@ -62,18 +72,27 @@ async function JournalEntries({ searchParams }: { searchParams: Promise<{ page?:
   );
 }
 
-export default function BlogPage({
+export default async function BlogPage({
   searchParams,
 }: {
-  searchParams: Promise<{ page?: string }>;
+  searchParams: PageSearchParams;
 }) {
+  const params = await searchParams;
+  const page = getPageNumber(params.page);
   return (
     <section className="wrap py-[clamp(48px,8vw,96px)]">
+      <PageStructuredData
+        name={page > 1 ? `Nyne Owls Journal — Page ${page}` : "Nyne Owls Journal"}
+        description={description}
+        path={page > 1 ? `/blog?page=${page}` : "/blog"}
+        type="CollectionPage"
+      />
       <div className="mb-[clamp(28px,5vw,52px)]">
         <SectionHead
+          headingLevel="h1"
           eyebrow="Nyne Owls Journal"
-          title="Ideas, notes and things in progress."
-          text="Stories from the studio on design, software, original worlds and the work behind them."
+          title="Articles on design, software, and original stories."
+          text={description}
         />
       </div>
       <Suspense fallback={<div className="min-h-64 border border-line bg-card" aria-hidden />}>

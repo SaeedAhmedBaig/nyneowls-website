@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Hero } from "@/components/blocks/Hero";
 import { StudioAside } from "@/components/blocks/HeroVisuals";
 import { Rows } from "@/components/blocks/Rows";
@@ -8,20 +7,35 @@ import { Faq } from "@/components/blocks/Faq";
 import { CtaForm } from "@/components/blocks/CtaForm";
 import { Section, SectionHead } from "@/components/primitives/Section";
 import { CtaButton, TextLink } from "@/components/primitives/Cta";
+import { JsonLd, PageStructuredData } from "@/components/seo/JsonLd";
+import { pageMeta } from "@/lib/seo";
+import { serviceSchema } from "@/lib/schema";
 
-export const metadata: Metadata = {
+const description =
+  "Nyne Owls Creative Studio provides brand identity, graphic design, art direction, packaging, editorial, and website design for businesses.";
+
+export const metadata = pageMeta({
   title: "Brand Identity & Graphic Design Studio",
-  description:
-    "Brand identity, graphic design, art direction, packaging and digital design from the Nyne Owls Creative Studio.",
-};
+  description,
+  path: "/studio",
+});
 
 export default function CreativeStudioPage() {
   return (
     <>
+      <PageStructuredData name="Nyne Owls Creative Studio" description={description} path="/studio" />
+      <JsonLd
+        data={serviceSchema({
+          name: "Brand identity and graphic design",
+          description,
+          path: "/studio",
+          serviceType: "Brand identity, graphic design, art direction, packaging, editorial, and website design",
+        })}
+      />
       <Hero
         eyebrow="Nyne Owls Creative Studio"
         lines={["Brands with", "a point of view."]}
-        lead="A brand identity and graphic design studio for businesses that want campaigns, packaging and digital experiences built with clear strategy and careful craft."
+        lead={description}
         actions={
           <>
             <CtaButton href="#brief">Start a project</CtaButton>

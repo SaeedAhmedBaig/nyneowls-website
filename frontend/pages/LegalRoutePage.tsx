@@ -5,6 +5,7 @@ import { Suspense } from "react";
 
 import { getDoc, legalDocs } from "@/content/legal";
 import { LegalPage } from "@/components/blocks/LegalPage";
+import { pageMeta } from "@/lib/seo";
 
 export function generateStaticParams() {
   return legalDocs.map((d) => ({
@@ -23,13 +24,15 @@ export async function generateMetadata({
   if (!d) {
     return {
       title: "Page Not Found",
+      robots: { index: false, follow: false },
     };
   }
 
-  return {
+  return pageMeta({
     title: d.title,
     description: d.description,
-  };
+    path: `/${d.slug}`,
+  });
 }
 
 async function LegalRouteContent({

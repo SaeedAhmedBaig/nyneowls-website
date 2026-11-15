@@ -6,6 +6,7 @@ const tiles = [
   { n: "02", title: "Products", sub: "Software · Systems · Technology", href: "/products", cls: "bg-dark text-white" },
   { n: "03", title: "Originals", sub: "Original Worlds · Comics · Publishing", href: "/originals", cls: "bg-card2 text-ink" },
 ];
+const tileCount = String(tiles.length).padStart(2, "0");
 
 export function HeroTiles() {
   return (
@@ -22,7 +23,7 @@ export function HeroTiles() {
             className={`flex min-h-[135px] flex-col justify-between p-[13px] transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-[0_12px_30px_#0000001f] min-[421px]:min-h-[150px] min-[421px]:p-[19px] min-[761px]:min-h-[200px] ${t.cls}`}
           >
             <div className="flex items-center justify-between text-[9px] font-bold tracking-[0.1em] opacity-80">
-              <span>{t.n} / 04</span>
+              <span>{t.n} / {tileCount}</span>
               <ArrowUpRight className="size-3.5" aria-hidden />
             </div>
             <div>

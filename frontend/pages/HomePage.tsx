@@ -8,10 +8,19 @@ import { Faq } from "@/components/blocks/Faq";
 import { Section, SectionHead } from "@/components/primitives/Section";
 import { CtaButton, TextLink } from "@/components/primitives/Cta";
 import { EMAIL } from "@/lib/site";
+import { PageStructuredData } from "@/components/seo/JsonLd";
+import { SITE, pageMeta } from "@/lib/seo";
+
+export const metadata = pageMeta({
+  title: "Brand Design, Software & Original Stories",
+  description: SITE.description,
+  path: "/",
+});
 
 export default function HomePage() {
   return (
     <>
+      <PageStructuredData name={SITE.name} description={SITE.description} path="/" />
       <Hero
         eyebrow="Creative & technology company"
         lines={["Design it.", "Build it.", "Tell it."]}
@@ -111,7 +120,7 @@ export default function HomePage() {
             a: "The point of sale system is built. We are preparing pilot demonstrations, and when you ask for a demo we will tell you plainly what works today and what does not.",
           },
           {
-            q: "Do you work with clients outside your own country?",
+            q: "Do you work with international clients?",
             a: "Yes. Currency, tax and payment details are agreed in each proposal.",
           },
         ]}

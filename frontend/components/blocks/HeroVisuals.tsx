@@ -165,7 +165,7 @@ export function StoriesAside() {
     ["Format", "Original comics, read online"],
     ["Built for", "Phones first, then tablet and desktop"],
     ["Release plan", "Announced once confirmed"],
-    ["Updates", "One email per release, no more"],
+    ["Announcements", "Published in the Nyne Owls Journal"],
   ];
   return (
     <div className={frame} aria-label="What to expect">

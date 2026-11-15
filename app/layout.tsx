@@ -27,8 +27,14 @@ export const metadata: Metadata = {
     title: SITE.title,
     description: SITE.description,
     url: "/",
+    images: ["/opengraph-image"],
   },
-  twitter: { card: "summary_large_image", title: SITE.title, description: SITE.description },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE.title,
+    description: SITE.description,
+    images: ["/opengraph-image"],
+  },
   robots: {
     index: true,
     follow: true,

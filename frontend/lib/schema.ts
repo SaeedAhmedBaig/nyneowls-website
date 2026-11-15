@@ -20,6 +20,12 @@ export function organizationSchema() {
     logo: { "@type": "ImageObject", url: SITE.logo, width: 512, height: 512 },
     email: SITE.email,
     description: SITE.description,
+    knowsAbout: [
+      "Brand identity design",
+      "Graphic design",
+      "Retail point-of-sale software",
+      "Original comics and stories",
+    ],
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer support",
@@ -83,7 +89,7 @@ export function webPageSchema({
   };
 }
 
-/** One of your divisions, e.g. Creative Studio. Describe only what you offer today. */
+/** Describe a public service only when its offer and status are visible on the page. */
 export function serviceSchema({
   name,
   description,

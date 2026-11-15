@@ -1,5 +1,6 @@
 import { Hero } from "@/components/blocks/Hero";
 import { Section } from "@/components/primitives/Section";
+import { PageStructuredData } from "@/components/seo/JsonLd";
 import { LEGAL_UPDATED, type LegalDoc } from "@/content/legal";
 import { EMAIL } from "@/lib/site";
 
@@ -9,6 +10,11 @@ const slugify = (s: string) =>
 export function LegalPage({ doc }: { doc: LegalDoc }) {
   return (
     <>
+      <PageStructuredData
+        name={doc.title}
+        description={doc.description}
+        path={`/${doc.slug}`}
+      />
       <Hero eyebrow={`Legal · Updated ${LEGAL_UPDATED}`} lines={[`${doc.title}.`]} lead={doc.intro} />
 
       <Section>
