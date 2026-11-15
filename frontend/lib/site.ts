@@ -18,6 +18,8 @@ export const companyNav: NavItem[] = [
   { label: "Work with us", href: "/work-with-us" },
 ];
 
+export const teamNav: NavItem[] = [{ label: "Admin sign in", href: "/admin/login" }];
+
 export const legalNav: NavItem[] = [
   { label: "Privacy Policy", href: "/privacy" },
   { label: "Terms", href: "/terms" },

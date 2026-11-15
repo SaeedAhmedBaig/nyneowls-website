@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/primitives/Logo";
-import { companyNav, COPYRIGHT_YEAR, divisions, EMAIL, legalNav } from "@/lib/site";
+import { companyNav, COPYRIGHT_YEAR, divisions, EMAIL, legalNav, teamNav } from "@/lib/site";
 
 function Col({ title, items }: { title: string; items: { label: string; href: string }[] }) {
   return (
@@ -25,7 +25,7 @@ export function Footer() {
   return (
     <footer className="border-t border-line pb-6 pt-[52px]">
       <div className="wrap">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-[1.4fr_repeat(3,1fr)]">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
           <div className="sm:col-span-2 lg:col-span-1">
             <Logo />
             <p className="mt-4 max-w-[340px] text-[13px] leading-[1.7] text-muted-foreground">
@@ -43,6 +43,7 @@ export function Footer() {
               {EMAIL}
             </a>
           </div>
+          <Col title="Team" items={teamNav} />
           <Col title="Legal" items={legalNav} />
         </div>
         <div className="mt-11 flex flex-wrap justify-between gap-4 border-t border-line pt-5 text-[9px] font-bold tracking-[0.1em] text-muted-foreground">
