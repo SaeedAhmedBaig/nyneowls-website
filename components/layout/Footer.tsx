@@ -29,8 +29,8 @@ export function Footer() {
           <div className="sm:col-span-2 lg:col-span-1">
             <Logo />
             <p className="mt-4 max-w-[340px] text-[13px] leading-[1.7] text-muted-foreground">
-              Design it. Build it. Tell it. A creative and technology company
-              working across brand design, digital goods, software and original comics.
+              Design it. Build it. Tell it. A design and technology studio working across brand design,
+              software and original stories.
             </p>
           </div>
           <Col title="Divisions" items={divisions} />

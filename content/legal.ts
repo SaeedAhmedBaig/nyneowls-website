@@ -1,3 +1,5 @@
+import { FEATURES } from "@/lib/site";
+
 export type LegalDoc = {
   slug: string;
   title: string;
@@ -8,7 +10,7 @@ export type LegalDoc = {
 
 export const LEGAL_UPDATED = "14 November 2026";
 
-export const legalDocs: LegalDoc[] = [
+const allLegalDocs: LegalDoc[] = [
   {
     slug: "privacy",
     title: "Privacy Policy",
@@ -197,6 +199,8 @@ export const legalDocs: LegalDoc[] = [
     ],
   },
 ];
+
+export const legalDocs = allLegalDocs.filter((d) => d.slug !== "licences" || FEATURES.goods);
 
 export function getDoc(slug: string) {
   return legalDocs.find((d) => d.slug === slug);
