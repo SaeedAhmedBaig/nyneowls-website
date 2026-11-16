@@ -52,7 +52,7 @@ const allLegalDocs: LegalDoc[] = [
       {
         heading: "Cookies and analytics",
         paragraphs: [
-          "This site does not currently use advertising cookies. If we add analytics, we will say which tool, what it collects and how to opt out before it is switched on.",
+          "The admin area uses essential authentication cookies to keep authorised users signed in. This site does not use analytics or advertising cookies. Your cookie-notice choice and light or dark theme preference are saved in your browser's local storage, not in cookies.",
         ],
       },
       {
