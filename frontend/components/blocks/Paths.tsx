@@ -18,7 +18,7 @@ export function Paths({ items }: { items: PathItem[] }) {
         <Link
           key={p.href}
           href={p.href}
-          className="group relative grid gap-x-8 gap-y-3 border-b border-line px-1 py-7 transition-colors hover:bg-card min-[901px]:grid-cols-[48px_1fr_1.2fr] min-[901px]:px-3 min-[901px]:py-8 min-[1101px]:grid-cols-[56px_1.1fr_1.2fr_auto_32px] min-[1101px]:items-center"
+          className="group relative grid gap-x-8 gap-y-3 border-b border-line px-1 py-7 transition-colors hover:bg-card min-[901px]:grid-cols-[48px_minmax(0,1fr)_minmax(0,1.2fr)] min-[901px]:px-3 min-[901px]:py-8 min-[1101px]:grid-cols-[56px_minmax(0,1.1fr)_minmax(0,1.2fr)_280px_32px] min-[1101px]:items-center"
         >
           <span
             aria-hidden
