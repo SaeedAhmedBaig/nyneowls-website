@@ -9,10 +9,10 @@ import { PageStructuredData } from "@/components/seo/JsonLd";
 import { pageMeta } from "@/lib/seo";
 
 const description =
-  "Nyne Owls Stories & Comics is developing its first original comic series for comfortable reading on a phone. No release date has been announced.";
+  "Nyne Owls is developing an original manga set in The World Below the World, a naturally formed subterranean world. No release date has been announced.";
 
 export const metadata = pageMeta({
-  title: "Original Comics & Stories",
+  title: "Original Manga & Stories",
   description,
   path: "/originals",
 });
@@ -20,28 +20,28 @@ export const metadata = pageMeta({
 export default function StoriesComicsPage() {
   return (
     <>
-      <PageStructuredData name="Nyne Owls Stories & Comics" description={description} path="/originals" />
+      <PageStructuredData name="Nyne Owls Original Manga" description={description} path="/originals" />
       <Hero
-        eyebrow="Nyne Owls Stories & Comics"
-        lines={["Original worlds.", "One chapter", "at a time."]}
-        lead={description}
-        actions={<CtaButton href="#contact">Ask about the series</CtaButton>}
-        status="Series in development"
+        eyebrow="Nyne Owls Original Manga"
+        lines={["A world", "beneath our", "own."]}
+        lead="In The World Below the World, a young salvage diver sets out to find his sister in a naturally formed underground world. The manga follows his search through a setting shaped by nature and the people who live there."
+        actions={<CtaButton href="#contact">Ask about the manga</CtaButton>}
+        status="Manga in development"
         visual={<StoriesAside />}
       />
 
       <Section alt>
         <SectionHead
-          eyebrow="What to expect"
-          title="Stories with their own identity."
-          text="We are building the first series carefully, and we will only announce a schedule we can keep."
+          eyebrow="The story and its world"
+          title="A world beneath the familiar."
+          text="The story begins with a personal search in an underground world shaped by nature, distinct environments and the people who make their lives there. We’ll let the manga reveal the rest."
         />
         <CardGrid
           cols={3}
           items={[
-            { num: "01", title: "Original stories", text: "Our own characters, places and plot, not adaptations. Each series gets its own title, synopsis and page on this site." },
-            { num: "02", title: "Made for the phone", text: "Chapters will be laid out to read comfortably on a phone first, and scale up to tablet and desktop." },
-            { num: "03", title: "Credited properly", text: "Everyone who contributes is credited, and permissions are agreed before anything is published." },
+            { num: "01", title: "One connected world", text: "The world below is part of the same physical world as the surface: naturally formed, varied and only partly known to the people who live there." },
+            { num: "02", title: "A personal search", text: "At its heart is a young salvage diver searching for his sister. That search is the starting point; we’re keeping further story details under wraps." },
+            { num: "03", title: "Manga first", text: "The story is being developed as a manga. A comics adaptation is a later step, not a format or release currently being offered." },
           ]}
         />
       </Section>
@@ -49,19 +49,20 @@ export default function StoriesComicsPage() {
       <Faq
         heading="Common questions."
         items={[
-          { q: "When will the first series launch?", a: "It is in development and no release date has been confirmed. We will publish an announcement on the Nyne Owls Journal when the title and schedule are ready." },
-          { q: "Will it be free to read?", a: "We plan to make the start of each series free to read. Paid chapters or memberships would only come later, if readers want them." },
-          { q: "Can I sign up for release emails?", a: "There is no release mailing list yet. Use the enquiry form below to ask a question; it does not subscribe you to updates." },
+          { q: "What is The World Below the World?", a: "It is the setting for Nyne Owls’ original manga: a naturally formed underground world that is part of the same world as the surface." },
+          { q: "Is this a manga or a comic?", a: "Manga is the primary format. A comics adaptation is a later step; release and reading details have not been announced." },
+          { q: "When can I read it?", a: "The manga is in development, and no release date or reading platform has been announced. We will share news when those details are ready." },
+          { q: "Can I sign up for release emails?", a: "There is no manga release mailing list yet. Use the enquiry form below to ask a question; it does not subscribe you to updates." },
         ]}
       />
 
       <CtaForm
         id="contact"
-        eyebrow="Stories & Comics enquiry"
-        title="Ask us about the series"
-        text="Have a question about the first comic series? Send it here. This form is an enquiry, not a release-update subscription."
+        eyebrow="Original manga enquiry"
+        title="Ask us about the story"
+        text="Have a question about the manga or its development? Send it here. This form is an enquiry, not a release-update subscription."
         button="Send enquiry"
-        subject="Stories & Comics enquiry"
+        subject="Original manga enquiry"
         fields={[
           { id: "e", label: "Email", type: "email" },
           { id: "m", label: "Question", type: "area", full: true },

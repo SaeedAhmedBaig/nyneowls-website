@@ -3,7 +3,7 @@ export type NavItem = { label: string; href: string; hint?: string };
 export const divisions: NavItem[] = [
   { label: "Studio", href: "/studio", hint: "Brand and design work for clients" },
   { label: "Products", href: "/products", hint: "Software we are building" },
-  { label: "Originals", href: "/originals", hint: "Original comics and stories" },
+  { label: "Originals", href: "/originals", hint: "Original manga set in The World Below the World" },
 ];
 
 export const mainNav: NavItem[] = [

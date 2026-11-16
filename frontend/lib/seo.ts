@@ -4,9 +4,9 @@ export const SITE = {
   name: "Nyne Owls",
   // The address your visitors actually land on (Vercel redirects the bare domain to www).
   url: "https://www.nyneowls.com",
-  title: "Nyne Owls | Brand Design, Software & Original Stories",
+  title: "Nyne Owls | Brand Design, Software & Original Manga",
   description:
-    "Nyne Owls is a creative and technology company working across brand design, business software, and original comics and stories.",
+    "Nyne Owls is a creative and technology company working across brand design, business software, and original manga.",
   email: "hello@nyneowls.com",
   // Square PNG in /public, at least 112x112 (512x512 here). Replace the file, keep the name.
   logo: "https://www.nyneowls.com/logo.png",

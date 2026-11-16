@@ -9,7 +9,7 @@ import { PageStructuredData } from "@/components/seo/JsonLd";
 import { pageMeta } from "@/lib/seo";
 
 const description =
-  "Learn about Nyne Owls, a creative and technology company working across brand design, business software, and original comics and stories.";
+  "Learn about Nyne Owls, a creative and technology company working across brand design, business software, and original manga.";
 
 export const metadata = pageMeta({ title: "About", description, path: "/about" });
 
@@ -20,7 +20,7 @@ export default function AboutPage() {
       <Hero
         eyebrow="About Nyne Owls"
         lines={["A creative &", "technology", "company."]}
-        lead="Nyne Owls is a creative and technology company working across brand design, business software, and original comics and stories. Each practice area has its own expertise and a clear next step."
+        lead="Nyne Owls is a creative and technology company working across brand design, business software, and original manga. Each practice area has its own expertise and a clear next step."
         actions={
           <>
             <CtaButton href="/work-with-us">Get in touch</CtaButton>
@@ -69,7 +69,7 @@ export default function AboutPage() {
           rows={[
             ["Studio", "Client creative services", "Taking enquiries"],
             ["Products", "POS, CRM and future software", "POS developed · CRM in development"],
-            ["Originals", "Original narrative publishing", "Series in development"],
+            ["Originals", "Manga-first storytelling", "Manga in development"],
           ]}
         />
       </Section>
@@ -77,7 +77,7 @@ export default function AboutPage() {
       <Faq
         heading="Straight answers."
         items={[
-          { q: "What is Nyne Owls?", a: "A creative and technology company working across design, software and original stories." },
+          { q: "What is Nyne Owls?", a: "A creative and technology company working across design, software and original manga." },
           { q: "Why three practice areas?", a: "Each has its own expertise and one clear next step, held to one standard." },
           { q: "Do you make big claims?", a: "No. We avoid unsupported claims and label every product with its true status." },
         ]}

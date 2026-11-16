@@ -24,7 +24,7 @@ export default function HomePage() {
       <Hero
         eyebrow="Creative & technology company"
         lines={["Design it.", "Build it.", "Tell it."]}
-        lead="Nyne Owls is a creative and technology company. We design brands, build business software and create original comics, all under one accountable name."
+        lead="Nyne Owls is a creative and technology company. We design brands, build business software and develop original manga, all under one accountable name."
         actions={
           <>
             <CtaButton href="/work-with-us">Start a project</CtaButton>
@@ -43,7 +43,7 @@ export default function HomePage() {
           "Web design",
           "POS software",
           "CRM software",
-          "Original comics",
+          "Original manga",
         ]}
       />
 
@@ -71,9 +71,9 @@ export default function HomePage() {
             },
             {
               need: "I want something to read",
-              title: "Stories & Comics",
-              text: "Original comics made to read well on a phone. The first series is in development.",
-              status: "Series in development",
+              title: "Original Manga",
+              text: "A manga-first story set in The World Below the World, following a salvage diver’s search for his sister.",
+              status: "Manga in development",
               href: "/originals",
             },
           ]}
@@ -102,7 +102,7 @@ export default function HomePage() {
             {
               num: "03",
               title: "One standard of craft",
-              text: "Clear layouts, usable products and careful details, whether the work is a logo, a point of sale screen or a comic page.",
+              text: "Clear layouts, usable products and careful details, whether the work is a logo, a point of sale screen or a manga page.",
             },
           ]}
         />
@@ -113,7 +113,7 @@ export default function HomePage() {
         items={[
           {
             q: "What is Nyne Owls?",
-            a: "A creative and technology company working across studio design, business software and original stories.",
+            a: "A creative and technology company working across studio design, business software and original manga.",
           },
           {
             q: "Is the point of sale system available now?",

@@ -24,7 +24,7 @@ export function organizationSchema() {
       "Brand identity design",
       "Graphic design",
       "Retail point-of-sale software",
-      "Original comics and stories",
+      "Original manga and storytelling",
     ],
     contactPoint: {
       "@type": "ContactPoint",

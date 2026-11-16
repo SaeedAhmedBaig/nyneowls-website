@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 const tiles = [
   { n: "01", title: "Studio", sub: "Identity · Design · Art Direction", href: "/studio", cls: "bg-nyne text-white" },
   { n: "02", title: "Products", sub: "Software · Systems · Technology", href: "/products", cls: "bg-dark text-white" },
-  { n: "03", title: "Originals", sub: "Original Worlds · Comics · Publishing", href: "/originals", cls: "bg-card2 text-ink" },
+  { n: "03", title: "Originals", sub: "Original Manga · New Worlds · Stories", href: "/originals", cls: "bg-card2 text-ink" },
 ];
 const tileCount = String(tiles.length).padStart(2, "0");
 

@@ -11,7 +11,7 @@ import { PageStructuredData } from "@/components/seo/JsonLd";
 import { pageMeta } from "@/lib/seo";
 
 const description =
-  "Nyne Owls has developed retail point-of-sale software and is preparing pilot demonstrations. Its CRM product is in development.";
+  "NynePOS is nearing completion, with pilot demonstrations in preparation. NyneCRM is in development, with its product areas taking shape.";
 
 export const metadata = pageMeta({
   title: "Retail Point of Sale & CRM Software",
@@ -25,12 +25,12 @@ export default function ProductsPage() {
       <PageStructuredData name="Nyne Owls Products" description={description} path="/products" />
       <Hero
         eyebrow="Nyne Owls Products"
-        lines={["Software that", "fits how you", "work."]}
+        lines={["Tools for", "the work your", "team does."]}
         lead={description}
         actions={
           <>
-            <CtaButton href="#demo">Request a pilot demo</CtaButton>
-            <TextLink href="#status">See product status</TextLink>
+            <CtaButton href="#demo">Ask about a product</CtaButton>
+            <TextLink href="#status">Compare product stages</TextLink>
           </>
         }
         visual={<ProductStatus />}
@@ -39,27 +39,31 @@ export default function ProductsPage() {
       <Section id="products">
         <SectionHead
           eyebrow="Product portfolio"
-          title="Two products. One honest picture."
-          text="Choose a product to see what it is for and what happens next."
+          title="Software shaped around real business work."
+          text="Explore the areas shown in each product dashboard, then check its current stage and access."
         />
         <TabsBlock
           id="products-tabs"
           items={[
             {
-              label: "Point of Sale",
-              tag: "Developed",
-              title: "Point of Sale (POS)",
-              text: "A sales system for retailers and operators who need reliable selling, inventory and customer workflows. Capabilities, deployment and integrations are being documented and verified.",
-              sideTag: "Next steps",
-              side: ["Document supported workflows", "Confirm deployment and integrations", "Security and reliability review", "Prepare pilot demonstrations"],
+              label: "NynePOS",
+              tag: "Near completion",
+              title: "NynePOS — retail operations, organised around the sale.",
+              text: "NynePOS is being developed for retailers who want checkout and everyday store operations in one place. Its dashboard brings together POS mode, products and stock, sales, purchasing, finance, reporting, stores, billing and people operations.",
+              sideTag: "Product areas",
+              side: ["Point-of-sale mode and sales", "Products, stock and inventory", "Purchasing, finance and reports", "Stores, billing and people operations"],
+              linkHref: "https://swiftposs.vercel.app/",
+              linkLabel: "Explore the NynePOS preview",
             },
             {
-              label: "CRM",
+              label: "NyneCRM",
               tag: "In development",
-              title: "Customer Relationship Management (CRM)",
-              text: "A tool for businesses that want customer conversations and records in one organised place. Target customer and scope are being defined.",
-              sideTag: "Next steps",
-              side: ["Define the target customer", "Fix the MVP scope", "Plan the data model", "Set launch criteria"],
+              title: "NyneCRM — customer and team work, connected.",
+              text: "NyneCRM is taking shape around customer relationships, sales, marketing and service, alongside projects, tasks, reports, integrations and account settings. Its dashboard offers an early view of how those work areas are organised while the product is in development.",
+              sideTag: "Product areas",
+              side: ["CRM and sales", "Marketing and service", "Projects and tasks", "Reports, integrations and tenant settings"],
+              linkHref: "https://nexus-crm-frontend-three.vercel.app/",
+              linkLabel: "Explore the NyneCRM preview",
             },
           ]}
         />
@@ -67,19 +71,17 @@ export default function ProductsPage() {
 
       <Section id="status" alt>
         <SectionHead
-          eyebrow="Feature status"
-          title="Live, beta, planned or unavailable. Never blurred."
-          text="Features are listed only once verified."
+          eyebrow="Product snapshot"
+          title="A clear view of what’s taking shape."
+          text="These are the areas shown in each product dashboard. A visible module does not mean every workflow is complete or publicly available."
         />
         <DataTable
-          head={["Workflow area", "Point of Sale", "CRM"]}
+          head={["Product detail", "NynePOS", "NyneCRM"]}
           rows={[
-            ["Sales workflows", "Being documented", "Not in scope"],
-            ["Inventory", "Being documented", "Not in scope"],
-            ["Customer records", "Being documented", "Core use cases being defined"],
-            ["Integrations", "Being documented", "Being scoped"],
-            ["Data export", "Being documented", "Being scoped"],
-            ["Security and access", "Review pending", "Designed in from the start"],
+            ["Current stage", "Near completion", "In development"],
+            ["Public access", "No public signup or trial yet", "No public signup yet"],
+            ["Next step", "Pilot demonstrations are being prepared", "Core workflows are being developed"],
+            ["Dashboard areas", "POS, products, stock, sales, purchases, finance, reports, stores, billing and people/HRM", "CRM, sales, marketing, service, projects, tasks, reports, integrations and tenant settings"],
           ]}
         />
       </Section>
@@ -107,20 +109,20 @@ export default function ProductsPage() {
       <Faq
         heading="Straight answers."
         items={[
-          { q: "Is the POS available now?", a: "The point-of-sale software has been developed, and pilot demonstrations are being prepared. Ask us about its current capabilities and availability." },
-          { q: "Is the CRM available?", a: "No. It is in development, and we will share scope and launch criteria once confirmed." },
+          { q: "Can I sign up for NynePOS?", a: "NynePOS is nearing completion, but public signup and a free trial are not open yet. Contact us to ask about pilot demonstrations and current availability." },
+          { q: "Can I sign up for NyneCRM?", a: "NyneCRM is in development and does not have public signup yet. Contact us to follow its progress and discuss updates." },
           { q: "How will software be priced?", a: "Subscription, licence, setup and support models are being validated with customers before pricing is published." },
-          { q: "How is security handled?", a: "Access control, backups, privacy and incident response are release gates before public launch." },
+          { q: "How is security handled?", a: "Access, data protection, backups and support practices are part of release validation. We will publish specific commitments only once they are verified." },
         ]}
       />
 
       <CtaForm
         id="demo"
-        eyebrow="Request a demo"
-        title="See it in your workflow"
-        text="Tell us how your business operates. We will say what is ready today, what is not, and whether a pilot makes sense."
-        button="Request demo"
-        subject="Demo request"
+        eyebrow="Product enquiry"
+        title="Tell us what your business needs."
+        text="Ask about NynePOS pilot demonstrations or follow NyneCRM as it develops. We’ll be clear about what is ready to preview and what is still taking shape."
+        button="Send product enquiry"
+        subject="Product enquiry"
         fields={[
           { id: "n", label: "Name", type: "text" },
           { id: "e", label: "Email", type: "email" },

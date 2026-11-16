@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { Reveal } from "@/components/primitives/Reveal";
 import { Tag } from "@/components/primitives/Tag";
+import { TextLink } from "@/components/primitives/Cta";
 
 export type TabItem = {
   label: string;
@@ -11,6 +12,8 @@ export type TabItem = {
   text: string;
   sideTag?: string;
   side?: string[];
+  linkHref?: string;
+  linkLabel?: string;
 };
 
 export function TabsBlock({ items, id = "tabs" }: { items: TabItem[]; id?: string }) {
@@ -67,6 +70,11 @@ export function TabsBlock({ items, id = "tabs" }: { items: TabItem[]; id?: strin
             <Tag>{t.tag}</Tag>
             <h3 className="mb-3 mt-4 text-[clamp(22px,2.6vw,34px)] font-bold tracking-[-0.03em]">{t.title}</h3>
             <p className="text-sm leading-[1.75] text-muted-foreground">{t.text}</p>
+            {t.linkHref && t.linkLabel && (
+              <div className="mt-5">
+                <TextLink href={t.linkHref}>{t.linkLabel}</TextLink>
+              </div>
+            )}
           </div>
           {t.side && (
             <div className="bg-dark p-[clamp(22px,3vw,38px)] text-white">

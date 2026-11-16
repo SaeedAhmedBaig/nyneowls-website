@@ -40,8 +40,8 @@ export function StudioAside() {
 
 export function ProductStatus() {
   const rows = [
-    { name: "Point of Sale", status: "Developed", on: true },
-    { name: "CRM", status: "In development" },
+    { name: "NynePOS", status: "Near completion", on: true },
+    { name: "NyneCRM", status: "In development" },
     { name: "Future products", status: "Not announced" },
   ];
   return (
@@ -99,7 +99,7 @@ export function AboutAside() {
   const rows = [
     ["01", "Studio", "Design that gives your ideas a clear identity and direction.", "Taking enquiries"],
     ["02", "Products", "Practical software for the way businesses work.", "POS pilot demos in preparation"],
-    ["03", "Originals", "Original worlds, characters and stories.", "In development"],
+    ["03", "Originals", "An original manga set in The World Below the World.", "Manga in development"],
   ];
   return (
     <div className={frame} aria-label="Our three practice areas">
@@ -130,7 +130,7 @@ export function ContactAside() {
   const routes = [
     ["Design project", "Studio", "/studio#brief"],
     ["Software demo", "Products", "/products#demo"],
-    ["Story release updates", "Originals", "/originals#follow"],
+    ["Original manga enquiry", "Originals", "/originals#contact"],
   ];
   return (
     <div className={frame} aria-label="Where your message goes">
@@ -162,14 +162,14 @@ export function ContactAside() {
 
 export function StoriesAside() {
   const rows = [
-    ["Format", "Original comics, read online"],
-    ["Built for", "Phones first, then tablet and desktop"],
-    ["Release plan", "Announced once confirmed"],
-    ["Announcements", "Published in the Nyne Owls Journal"],
+    ["Universe", "The World Below the World"],
+    ["At its heart", "A salvage diver searching for his sister"],
+    ["Primary format", "Manga"],
+    ["Release", "In development · no date announced"],
   ];
   return (
     <div className={frame} aria-label="What to expect">
-      <Label left="WHAT TO EXPECT" right="IN DEVELOPMENT" />
+      <Label left="AN ORIGINAL MANGA" right="IN DEVELOPMENT" />
       <div className="border border-line bg-paper">
         {rows.map(([k, v]) => (
           <div

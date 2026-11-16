@@ -13,7 +13,7 @@ import { hasPublicBlogConfig } from "@backend/blog/supabase";
 
 const pageSize = 9;
 const description =
-  "Articles from Nyne Owls on brand and graphic design, retail software, original comics, and the work behind them.";
+  "Articles from Nyne Owls on brand and graphic design, retail software, original manga, and the work behind them.";
 
 type PageSearchParams = Promise<{ page?: string | string[] }>;
 
