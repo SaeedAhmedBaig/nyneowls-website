@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/primitives/Logo";
+import { NewsletterSignup } from "@/components/blog/NewsletterSignup";
 import { companyNav, COPYRIGHT_YEAR, divisions, EMAIL, legalNav, teamNav } from "@/lib/site";
 
 function Col({ title, items }: { title: string; items: { label: string; href: string }[] }) {
@@ -25,6 +26,9 @@ export function Footer() {
   return (
     <footer className="border-t border-line pb-6 pt-[52px]">
       <div className="wrap">
+        <div className="mb-11">
+          <NewsletterSignup source="footer" />
+        </div>
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
           <div className="sm:col-span-2 lg:col-span-1">
             <Logo />

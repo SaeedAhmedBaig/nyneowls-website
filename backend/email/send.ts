@@ -20,6 +20,13 @@ export function getMailConfig() {
   return { key, to, from };
 }
 
+export function getTransactionalMailConfig() {
+  const key = process.env.RESEND_API_KEY;
+  const from = process.env.CONTACT_FROM;
+  if (!key || !from) return null;
+  return { key, from };
+}
+
 /** Never throws. Returns true on success and logs the reason on failure. */
 export async function sendEmail(key: string, mail: Mail): Promise<boolean> {
   try {

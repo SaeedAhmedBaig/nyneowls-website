@@ -25,13 +25,16 @@ const allLegalDocs: LegalDoc[] = [
         heading: "What we collect",
         paragraphs: [
           "Details you submit in our forms: your name, email address, the topic of your enquiry and anything you write in the message fields.",
+          "If you submit a journal comment, we collect the display name and comment text you provide. Comments are held for moderation; approved comments display your name and text publicly.",
+          "If you join the journal newsletter, we collect your email address, consent time and signup source. We send a confirmation email and only add the address to the mailing list after you confirm.",
+          "We use temporary keyed hashes of request IP addresses for spam prevention, rather than storing the raw address in our rate-limit table. These rate-limit records are removed after 24 hours.",
           "Your light or dark theme choice is saved in your browser so the site remembers it. It is not sent to us.",
         ],
       },
       {
         heading: "How we use it",
         paragraphs: [
-          "We use your details to reply to your enquiry, prepare proposals, and keep the website secure. We do not sell personal data.",
+          "We use enquiry details to reply and prepare proposals; comment details to review and publish comments; and newsletter details to send occasional journal and design updates after confirmation. We also use limited request data to prevent spam and abuse. We do not sell personal data.",
         ],
       },
       {
@@ -43,7 +46,7 @@ const allLegalDocs: LegalDoc[] = [
       {
         heading: "Sharing and service providers",
         paragraphs: [
-          "We share data only with providers needed to run the business, such as email delivery and hosting, under appropriate terms. We will list them here as they are introduced.",
+          "We use Supabase to host the website's database and Resend to deliver transactional emails, including newsletter confirmation and comment notifications. These providers process information for us to provide the requested service.",
         ],
       },
       {
@@ -55,7 +58,7 @@ const allLegalDocs: LegalDoc[] = [
       {
         heading: "Retention and your rights",
         paragraphs: [
-          "We keep enquiry details only as long as needed to respond and keep a reasonable record of the conversation. You can ask to access, correct or delete your information by emailing us, and we will reply with next steps.",
+          "We keep enquiry details as long as needed to respond and maintain a reasonable record. Published comments remain visible until removed; pending or rejected comments are retained for moderation and abuse prevention. Newsletter records are retained while subscribed and may be kept after unsubscribe to record consent and honour the opt-out. You can ask to access, correct or delete your information, or unsubscribe using the link in a newsletter email, by contacting us.",
         ],
       },
       {

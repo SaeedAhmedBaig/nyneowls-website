@@ -94,7 +94,7 @@ begin
     coalesce(p_post->>'seo_title', ''),
     coalesce(p_post->>'seo_description', '')
   )
-  on conflict (id) do update set
+  on conflict on constraint blog_posts_pkey do update set
     slug = excluded.slug,
     title = excluded.title,
     excerpt = excluded.excerpt,

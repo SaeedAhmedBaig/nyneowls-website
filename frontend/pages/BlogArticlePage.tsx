@@ -5,7 +5,11 @@ import { Suspense } from "react";
 import { connection } from "next/server";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { BlogSetupNotice } from "@/components/blog/BlogSetupNotice";
+import { BlogComments } from "@/components/blog/BlogComments";
+import { BlogShare } from "@/components/blog/BlogShare";
+import AnimatedContent from "@/components/AnimatedContent";
 import { getPublishedPost } from "@backend/blog/data";
+import { getApprovedBlogComments } from "@backend/blog/data";
 import { sanitizeBlogHtml, readingTime } from "@backend/blog/content";
 import { absoluteUrl, SITE } from "@/lib/seo";
 import { hasPublicBlogConfig } from "@backend/blog/supabase";
@@ -53,6 +57,7 @@ async function Article({ params }: Props) {
   const { slug } = await params;
   const post = await getPublishedPost(slug);
   if (!post) notFound();
+  const comments = await getApprovedBlogComments(post.id);
 
   const published = post.published_at
     ? new Intl.DateTimeFormat("en-GB", { dateStyle: "long" }).format(new Date(post.published_at))
@@ -141,6 +146,12 @@ async function Article({ params }: Props) {
           </ol>
         </section>
       )}
+      <div className="mt-12 border-t border-line pt-8">
+        <AnimatedContent distance={18} duration={0.55} threshold={0.12} className="grid gap-10">
+          <BlogShare title={post.title} url={canonical} image={post.cover_image_url || undefined} />
+          <BlogComments slug={post.slug} comments={comments} />
+        </AnimatedContent>
+      </div>
       <div className="mt-12 border-t border-line pt-6">
         <Link href="/blog" className="text-xs font-semibold underline underline-offset-4 hover:text-nyne-text">More from the journal</Link>
       </div>

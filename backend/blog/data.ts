@@ -1,6 +1,6 @@
 import "server-only";
 
-import type { BlogCitation, BlogPost, BlogPostRow } from "@backend/blog/database";
+import type { BlogCitation, BlogComment, BlogPost, BlogPostRow } from "@backend/blog/database";
 import { createBlogAdminClient, createPublicBlogClient } from "@backend/blog/supabase";
 
 async function attachCitations(posts: BlogPostRow[]): Promise<BlogPost[]> {
@@ -125,4 +125,72 @@ export async function getAdminPost(id: string) {
   }
 
   return { ...post, citations: citations ?? [] };
+}
+
+export async function getApprovedBlogComments(postId: string): Promise<BlogComment[]> {
+  const supabase = createPublicBlogClient();
+  const { data, error } = await supabase
+    .from("blog_comments")
+    .select("*")
+    .eq("post_id", postId)
+    .eq("status", "approved")
+    .order("created_at", { ascending: true })
+    .limit(100);
+
+  if (error) {
+    console.error("Could not load approved blog comments:", error.message);
+    throw new Error("Could not load article comments.");
+  }
+
+  return data ?? [];
+}
+
+export async function getAdminBlogComments() {
+  const supabase = createBlogAdminClient();
+  const { data, error } = await supabase
+    .from("blog_comments")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(100);
+
+  if (error) {
+    console.error("Could not load blog comments for moderation:", error.message);
+    throw new Error("Could not load comments for moderation.");
+  }
+
+  const comments = data ?? [];
+  const postIds = [...new Set(comments.map((comment) => comment.post_id))];
+  if (!postIds.length) return comments.map((comment) => ({ ...comment, post: null }));
+
+  const { data: posts, error: postsError } = await supabase
+    .from("blog_posts")
+    .select("id,title,slug")
+    .in("id", postIds);
+
+  if (postsError) {
+    console.error("Could not load article titles for comment moderation:", postsError.message);
+    throw new Error("Could not load article details for comment moderation.");
+  }
+
+  const postsById = new Map((posts ?? []).map((post) => [post.id, post]));
+  return comments.map((comment) => ({
+    ...comment,
+    post: postsById.get(comment.post_id) ?? null,
+  }));
+}
+
+export async function getAdminNewsletterSubscribers() {
+  const supabase = createBlogAdminClient();
+  const { data, error } = await supabase
+    .from("newsletter_subscribers")
+    .select("id,email,status,consent_source,consented_at,confirmed_at")
+    .order("created_at", { ascending: false })
+    .limit(200);
+
+  if (error) {
+    console.error("Could not load newsletter subscriber list:", error.message);
+    throw new Error("Could not load newsletter subscribers.");
+  }
+
+  return data ?? [];
 }
