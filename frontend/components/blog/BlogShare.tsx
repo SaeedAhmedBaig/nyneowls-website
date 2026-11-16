@@ -1,7 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { AtSign, Share2 } from "lucide-react";
+import { Copy, Mail, Share2 } from "lucide-react";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaLinkedinIn,
+  FaPinterestP,
+  FaWhatsapp,
+  FaXTwitter,
+} from "react-icons/fa6";
 
 type Props = {
   title: string;
@@ -54,12 +62,12 @@ export function BlogShare({ title, url, image }: Props) {
   };
 
   const links = [
-    { label: "Facebook", platform: "facebook", mark: "f" },
-    { label: "X", platform: "x", mark: "X" },
-    { label: "LinkedIn", platform: "linkedin", mark: "in" },
-    { label: "WhatsApp", platform: "whatsapp", mark: "w" },
-    { label: "Pinterest", platform: "pinterest", mark: "P" },
-    { label: "Email", platform: "email", mark: null },
+    { label: "Facebook", platform: "facebook", icon: <FaFacebookF className="size-4" aria-hidden /> },
+    { label: "X", platform: "x", icon: <FaXTwitter className="size-4" aria-hidden /> },
+    { label: "LinkedIn", platform: "linkedin", icon: <FaLinkedinIn className="size-4" aria-hidden /> },
+    { label: "WhatsApp", platform: "whatsapp", icon: <FaWhatsapp className="size-4" aria-hidden /> },
+    { label: "Pinterest", platform: "pinterest", icon: <FaPinterestP className="size-4" aria-hidden /> },
+    { label: "Email", platform: "email", icon: <Mail className="size-4" aria-hidden /> },
   ];
 
   return (
@@ -72,43 +80,41 @@ export function BlogShare({ title, url, image }: Props) {
         <button
           type="button"
           onClick={share}
-          className="inline-flex min-h-11 items-center gap-2 border border-ink bg-ink px-4 text-xs font-semibold text-onink transition-colors hover:border-nyne hover:bg-nyne"
+          className="ml-auto inline-flex min-h-11 items-center gap-2 border border-ink bg-ink px-4 text-xs font-semibold text-onink transition-colors hover:border-nyne hover:bg-nyne"
         >
           <Share2 className="size-4" aria-hidden />
           Share article
         </button>
       </div>
-      <div className="flex flex-wrap gap-2">
+      <div className="grid grid-cols-2 gap-2 min-[561px]:grid-cols-4 min-[1000px]:grid-cols-8">
         <button
           type="button"
           onClick={() => copyLink("Article link copied.")}
-          className="inline-flex min-h-10 items-center gap-2 border border-line px-3 text-xs font-semibold transition-colors hover:bg-card"
+          className="inline-flex min-h-10 w-full items-center justify-center gap-2 border border-line px-2 text-[11px] font-semibold transition-colors hover:bg-card"
         >
-          <Share2 className="size-4" aria-hidden />
+          <Copy className="size-4 shrink-0" aria-hidden />
           Copy link
         </button>
-        {links.map(({ label, platform, mark }) => (
+        {links.map(({ label, platform, icon }) => (
           <a
             key={platform}
             href={platformUrl(platform, title, url, image)}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`Share on ${label}`}
-            className="inline-flex min-h-10 items-center gap-2 border border-line px-3 text-xs font-semibold transition-colors hover:border-nyne hover:bg-card"
+            className="inline-flex min-h-10 w-full items-center justify-center gap-2 border border-line px-2 text-[11px] font-semibold transition-colors hover:border-nyne hover:bg-card"
           >
-            {mark ? (
-              <span aria-hidden className="flex size-4 items-center justify-center text-[11px] font-bold">{mark}</span>
-            ) : <AtSign className="size-4" aria-hidden />}
+            {icon}
             {label}
           </a>
         ))}
         <button
           type="button"
           onClick={() => copyLink("Link copied. Paste it into your Instagram post, Story or message.")}
-          className="inline-flex min-h-10 items-center gap-2 border border-line px-3 text-xs font-semibold transition-colors hover:bg-card"
+          className="inline-flex min-h-10 w-full items-center justify-center gap-2 border border-line px-2 text-[11px] font-semibold transition-colors hover:bg-card"
           aria-label="Copy link to share on Instagram"
         >
-          <span aria-hidden className="flex size-4 items-center justify-center text-[9px] font-bold">IG</span>
+          <FaInstagram className="size-4 shrink-0" aria-hidden />
           Instagram
         </button>
       </div>
