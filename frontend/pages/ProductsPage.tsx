@@ -124,8 +124,8 @@ export default function ProductsPage() {
         fields={[
           { id: "n", label: "Name", type: "text" },
           { id: "e", label: "Email", type: "email" },
-          { id: "p", label: "Product", type: "select", options: ["Point of Sale", "CRM", "Both"] },
-          { id: "b", label: "Business type", type: "select", options: ["Retail", "Food and hospitality", "Services", "Other"] },
+          { id: "p", label: "Product", type: "select", options: ["Point of Sale", "CRM", "Both"], required: true },
+          { id: "b", label: "Business type", type: "select", options: ["Retail", "Food and hospitality", "Services", "Other"], required: true },
           { id: "g", label: "Current setup and needs", type: "area", full: true },
         ]}
       />

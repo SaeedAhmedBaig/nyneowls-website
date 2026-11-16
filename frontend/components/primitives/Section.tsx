@@ -12,7 +12,9 @@ export function Section({
 }) {
   return (
     <section id={id} className={`py-[clamp(56px,8vw,104px)] ${alt ? "bg-card [&_.on-alt]:bg-paper" : ""}`}>
-      <div className="wrap">{children}</div>
+      <div className="wrap">
+        <Reveal className="section-content">{children}</Reveal>
+      </div>
     </section>
   );
 }

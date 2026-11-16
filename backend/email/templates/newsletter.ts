@@ -34,7 +34,7 @@ export function newsletterWelcome(unsubscribeUrl: string): BuiltEmail {
     <h1 class="h1" style="margin:0 0 18px;font:800 30px/1.15 ${BRAND.font};letter-spacing:-0.035em;color:${BRAND.color.ink};">You are on the list.</h1>
     <p style="margin:0 0 26px;font:15px/1.7 ${BRAND.font};color:${BRAND.color.muted};">We will send occasional, useful updates from Nyne Owls: practical thinking on brand identity, graphic and digital design, plus new journal articles. We will not sell your address, and every newsletter will include an unsubscribe link.</p>
     ${button(`${SITE_URL}/blog`, "Read the journal")}
-    <p style="margin:24px 0 0;font:12px/1.7 ${BRAND.font};color:${BRAND.color.muted};">Changed your mind? <a href="${esc(unsubscribeUrl)}" style="color:${BRAND.color.nyneText};">Unsubscribe at any time</a>.</p>`;
+    <p style="margin:24px 0 0;font:12px/1.7 ${BRAND.font};color:${BRAND.color.muted};">Changed your mind? <a href="${esc(unsubscribeUrl)}" style="color:${BRAND.color.nyneText};text-decoration:underline;">Unsubscribe at any time</a>.</p>`;
   return {
     subject: "You are subscribed to the Nyne Owls journal",
     html: layout({

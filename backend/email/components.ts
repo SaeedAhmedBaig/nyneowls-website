@@ -16,10 +16,10 @@ export function eyebrow(text: string) {
   </div>`;
 }
 
-/** Primary button: square corners, brand red, like the site's CTA. */
+/** Primary button: square corners, accessible brand red, like the site's CTA. */
 export function button(href: string, label: string) {
   return `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
-    <td bgcolor="${C.nyne}" style="background:${C.nyne};">
+    <td bgcolor="${C.nyneText}" style="background:${C.nyneText};">
       <a href="${esc(href)}" style="display:inline-block;padding:15px 24px;font:600 14px ${FONT};color:#ffffff;text-decoration:none;">${esc(label)}&nbsp;&nbsp;&#8599;</a>
     </td></tr></table>`;
 }
@@ -40,7 +40,7 @@ export function fieldRows(fields: Field[]) {
     .join("");
 }
 
-/** The four divisions as a numbered list, matching the site's "Where to start" section. */
+/** The practice areas as a numbered list, matching the site's "Where to start" section. */
 export function divisionList() {
   const rows = DIVISIONS.map(
     (d) => `<tr>

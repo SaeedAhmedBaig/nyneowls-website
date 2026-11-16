@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { connection } from "next/server";
 import { BlogPostCard } from "@/components/blog/BlogPostCard";
 import { BlogSetupNotice } from "@/components/blog/BlogSetupNotice";
+import { Reveal } from "@/components/primitives/Reveal";
 import { SectionHead } from "@/components/primitives/Section";
 import { PageStructuredData } from "@/components/seo/JsonLd";
 import { pageMeta } from "@/lib/seo";
@@ -95,9 +96,11 @@ export default async function BlogPage({
           text={description}
         />
       </div>
-      <Suspense fallback={<div className="min-h-64 border border-line bg-card" aria-hidden />}>
-        <JournalEntries searchParams={searchParams} />
-      </Suspense>
+      <Reveal>
+        <Suspense fallback={<div className="min-h-64 border border-line bg-card" aria-hidden />}>
+          <JournalEntries searchParams={searchParams} />
+        </Suspense>
+      </Reveal>
     </section>
   );
 }

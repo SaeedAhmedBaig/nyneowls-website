@@ -35,7 +35,7 @@ export function autoReply(input: EmailInput): BuiltEmail {
     </p>
     ${summaryHtml}
     ${eyebrow("While you wait")}
-    <h2 style="margin:0 0 6px 0;font:800 22px/1.25 ${FONT};letter-spacing:-0.025em;color:${C.ink};">One company. Four creative worlds.</h2>
+    <h2 style="margin:0 0 6px 0;font:800 22px/1.25 ${FONT};letter-spacing:-0.025em;color:${C.ink};">One company. Three practice areas.</h2>
     <p style="margin:0 0 20px 0;font:14px/1.7 ${FONT};color:${C.muted};">Each page tells you plainly what is ready today.</p>
     ${divisionList()}
     <div style="border-top:1px solid ${C.line};padding-top:28px;">${button(SITE_URL, "Visit nyneowls.com")}</div>`;
@@ -53,7 +53,7 @@ export function autoReply(input: EmailInput): BuiltEmail {
     `Your message has reached the ${BRAND.name} team, and a person reads every one. We will reply to ${input.email} with next steps.${timing}`,
     "",
     ...(summary.length ? ["WHAT YOU SENT", ...summary.map((f) => `${f.label}: ${f.value}`), ""] : []),
-    "ONE COMPANY. FOUR CREATIVE WORLDS.",
+    "ONE COMPANY. THREE PRACTICE AREAS.",
     ...DIVISIONS.map((d) => `${d.no} ${d.name} (${d.status}): ${SITE_URL}${d.path}`),
     "",
     BRAND.tagline,

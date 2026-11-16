@@ -18,6 +18,7 @@ type Props = {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  required?: boolean;
   invalid?: boolean;
   disabled?: boolean;
   variant?: "dark" | "light";
@@ -31,6 +32,7 @@ export function Select({
   value,
   onChange,
   placeholder = "Choose one",
+  required,
   invalid,
   disabled,
   variant = "dark",
@@ -50,6 +52,7 @@ export function Select({
       <SelectTrigger
         id={id}
         aria-labelledby={labelId}
+        aria-required={required || undefined}
         aria-invalid={invalid || undefined}
         className={cn(
           "h-[50px] min-h-[50px] w-full rounded-none border px-3.5 py-3.5 text-left text-base font-normal whitespace-normal transition-colors focus-visible:border-nyne focus-visible:ring-2 focus-visible:ring-nyne/50 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-[#ff8a7d] min-[761px]:text-sm [&_svg]:size-4",

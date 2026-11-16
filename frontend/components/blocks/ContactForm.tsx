@@ -110,10 +110,11 @@ function Form() {
       </div>
 
       <div className="grid gap-[7px]">
-        <label htmlFor="wwu-name" className={labelCls}>Name</label>
+        <label htmlFor="wwu-name" className={labelCls}>Name <span aria-hidden="true">*</span></label>
         <input
           id="wwu-name"
           autoComplete="name"
+          required
           aria-invalid={errors.name ? true : undefined}
           className={inputCls}
           {...register("name", { required: "Please enter your name" })}
@@ -122,11 +123,12 @@ function Form() {
       </div>
 
       <div className="grid gap-[7px]">
-        <label htmlFor="wwu-email" className={labelCls}>Email</label>
+        <label htmlFor="wwu-email" className={labelCls}>Email <span aria-hidden="true">*</span></label>
         <input
           id="wwu-email"
           type="email"
           autoComplete="email"
+          required
           aria-invalid={errors.email ? true : undefined}
           className={inputCls}
           {...register("email", {
@@ -138,7 +140,7 @@ function Form() {
       </div>
 
       <div className="grid gap-[7px] min-[761px]:col-span-2">
-        <span id="wwu-topic-label" className={labelCls}>What brings you here?</span>
+        <span id="wwu-topic-label" className={labelCls}>What brings you here? <span aria-hidden="true">*</span></span>
         <Controller
           name="topic"
           control={control}
@@ -150,6 +152,7 @@ function Form() {
               options={topics}
               value={field.value}
               onChange={field.onChange}
+              required
               invalid={!!errors.topic}
             />
           )}
@@ -158,10 +161,11 @@ function Form() {
       </div>
 
       <div className="grid gap-[7px] min-[761px]:col-span-2">
-        <label htmlFor="wwu-message" className={labelCls}>Message</label>
+        <label htmlFor="wwu-message" className={labelCls}>Message <span aria-hidden="true">*</span></label>
         <textarea
           id="wwu-message"
           rows={4}
+          required
           aria-invalid={errors.message ? true : undefined}
           className={`${inputCls} min-h-[110px] resize-y`}
           {...register("message", { required: "Tell us a little about it" })}
@@ -182,7 +186,7 @@ function Form() {
         <p role="alert" className="text-[13px] leading-[1.5] text-[#ff8a7d] min-[761px]:col-span-2">{error}</p>
       )}
       <small className="text-[11px] leading-[1.5] text-white/60 min-[761px]:col-span-2">
-        We use your details only to reply. See our{" "}
+        Fields marked * are required. We use your details only to reply. See our{" "}
         <Link href="/privacy" className="underline underline-offset-2 hover:text-white">Privacy Policy</Link>.
       </small>
     </form>

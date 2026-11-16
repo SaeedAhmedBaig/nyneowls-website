@@ -18,6 +18,16 @@ export function Reveal({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    el.setAttribute("data-ready", "");
+
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      !("IntersectionObserver" in window)
+    ) {
+      el.setAttribute("data-in", "");
+      return;
+    }
+
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

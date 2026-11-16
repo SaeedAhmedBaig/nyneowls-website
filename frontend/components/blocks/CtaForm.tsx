@@ -40,7 +40,7 @@ export function CtaForm({
   subject: string;
 }) {
   const defaultValues = fields.reduce<Values>((values, field) => {
-    if (field.type === "select") values[field.id] = field.options?.[0] ?? "";
+    if (field.type === "select") values[field.id] = "";
     return values;
   }, {});
   const { register, control: formControl, handleSubmit, reset, formState } = useForm<Values>({ defaultValues });
@@ -115,15 +115,17 @@ export function CtaForm({
               {fields.map((f) => {
                 const fieldId = `${id ?? "cta"}-${f.id}`;
                 const labelId = `${fieldId}-label`;
+                const required = f.type === "email" || Boolean(f.required);
                 return (
                   <div key={f.id} className={`grid min-w-0 gap-[7px] ${f.full ? "min-[761px]:col-span-2" : ""}`}>
                     <label id={labelId} htmlFor={fieldId} className="text-[10px] font-bold uppercase tracking-[0.11em] text-white/70">
-                      {f.label}
+                      {f.label}{required && <span aria-hidden="true"> *</span>}
                     </label>
                     {f.type === "select" ? (
                       <Controller
                         name={f.id}
                         control={formControl}
+                        rules={required ? { required: `Please choose ${f.label.toLowerCase()}.` } : undefined}
                         render={({ field }) => (
                           <Select
                             id={fieldId}
@@ -131,6 +133,7 @@ export function CtaForm({
                             options={(f.options ?? []).map((option) => ({ value: option, label: option }))}
                             value={field.value ?? ""}
                             onChange={field.onChange}
+                            required={required}
                             variant="dark"
                             disabled={!f.options?.length}
                           />
@@ -143,11 +146,12 @@ export function CtaForm({
                         id={fieldId}
                         type={f.type}
                         autoComplete={f.type === "email" ? "email" : f.id === "n" ? "name" : undefined}
+                        required={required}
                         aria-invalid={formState.errors[f.id] ? true : undefined}
                         className={controlClass}
                         {...register(f.id, {
-                          required: f.type === "email" || f.required ? "Required" : false,
-                          pattern: f.type === "email" ? { value: /^\S+@\S+\.\S+$/, message: "Enter a valid email" } : undefined,
+                          required: required ? (f.type === "email" ? "Please enter your email address." : `Please enter ${f.label.toLowerCase()}.`) : false,
+                          pattern: f.type === "email" ? { value: /^\S+@\S+\.\S+$/, message: "Enter a valid email address." } : undefined,
                         })}
                       />
                     )}
@@ -175,6 +179,7 @@ export function CtaForm({
                 </p>
               )}
               <small className="text-[11px] leading-[1.5] text-white/60 min-[761px]:col-span-2">
+                Fields marked * are required.{" "}
                 We use your details only to reply to this message.
               </small>
             </form>

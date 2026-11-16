@@ -21,6 +21,8 @@ export function TabsBlock({ items, id = "tabs" }: { items: TabItem[]; id?: strin
     let n = i;
     if (e.key === "ArrowRight") n = (i + 1) % items.length;
     else if (e.key === "ArrowLeft") n = (i - 1 + items.length) % items.length;
+    else if (e.key === "Home") n = 0;
+    else if (e.key === "End") n = items.length - 1;
     else return;
     e.preventDefault();
     setActive(n);
@@ -29,7 +31,7 @@ export function TabsBlock({ items, id = "tabs" }: { items: TabItem[]; id?: strin
 
   return (
     <Reveal>
-      <div role="tablist" aria-label="Sections" className="mb-3 flex w-max max-w-full flex-wrap border border-line max-[560px]:w-full">
+      <div role="tablist" aria-label="Product information" aria-orientation="horizontal" className="mb-3 flex w-max max-w-full flex-wrap border border-line max-[560px]:w-full">
         {items.map((t, i) => (
           <button
             key={t.label}
