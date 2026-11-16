@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -62,8 +63,16 @@ async function Article({ params }: Props) {
   const published = post.published_at
     ? new Intl.DateTimeFormat("en-GB", { dateStyle: "long" }).format(new Date(post.published_at))
     : "";
+  const updatedAt =
+    post.published_at &&
+    new Date(post.updated_at).toISOString().slice(0, 10) !==
+      new Date(post.published_at).toISOString().slice(0, 10)
+      ? post.updated_at
+      : undefined;
   const canonical = absoluteUrl(`/blog/${post.slug}`);
   const safeBody = sanitizeBlogHtml(post.body_html);
+  const isOrganizationAuthor =
+    post.author_name === SITE.name || post.author_name === "Nyne Owls Studio";
   const schema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -71,9 +80,9 @@ async function Article({ params }: Props) {
     headline: post.title,
     description: post.excerpt,
     datePublished: post.published_at,
-    dateModified: post.updated_at,
-    author: post.author_name === SITE.name
-      ? { "@type": "Organization", name: SITE.name }
+    ...(updatedAt ? { dateModified: updatedAt } : {}),
+    author: isOrganizationAuthor
+      ? { "@type": "Organization", "@id": absoluteUrl("/#organization"), name: SITE.name }
       : { "@type": "Person", name: post.author_name },
     publisher: {
       "@type": "Organization",
@@ -104,18 +113,27 @@ async function Article({ params }: Props) {
         <p className="mt-5 max-w-[720px] text-lg leading-8 text-muted-foreground">{post.excerpt}</p>
         <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground">
           {published && <time dateTime={post.published_at ?? undefined}>{published}</time>}
+          {updatedAt && (
+            <time dateTime={updatedAt}>
+              Updated {new Intl.DateTimeFormat("en-GB", { dateStyle: "long" }).format(new Date(updatedAt))}
+            </time>
+          )}
           <span>By {post.author_name}</span>
           <span>{readingTime(post.body_html)} min read</span>
         </div>
       </header>
 
       {post.cover_image_url && (
-        <div
-          role="img"
-          aria-label={post.cover_image_alt || post.title}
-          className="mt-8 aspect-[16/9] border border-line bg-card2 bg-cover bg-center"
-          style={{ backgroundImage: `url("${post.cover_image_url.replaceAll('"', "%22")}")` }}
-        />
+        <div className="relative mt-8 aspect-[16/9] border border-line bg-card2">
+          <Image
+            src={post.cover_image_url}
+            alt={post.cover_image_alt || post.title}
+            fill
+            sizes="(min-width: 920px) 920px, 100vw"
+            unoptimized
+            className="object-cover"
+          />
+        </div>
       )}
 
       <div className="blog-article-body mt-9" dangerouslySetInnerHTML={{ __html: safeBody }} />

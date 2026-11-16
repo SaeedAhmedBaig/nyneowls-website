@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { BlogPost } from "@backend/blog/database";
 import { readingTime } from "@backend/blog/content";
@@ -11,12 +12,16 @@ export function BlogPostCard({ post }: { post: BlogPost }) {
   return (
     <article className="group flex flex-col border border-line bg-card transition-[border-color,transform] hover:-translate-y-1 hover:border-nyne">
       {post.cover_image_url && (
-        <div
-          role="img"
-          aria-label={post.cover_image_alt || post.title}
-          className="aspect-[16/9] border-b border-line bg-card2 bg-cover bg-center"
-          style={{ backgroundImage: `url("${post.cover_image_url.replaceAll('"', "%22")}")` }}
-        />
+        <div className="relative aspect-[16/9] border-b border-line bg-card2">
+          <Image
+            src={post.cover_image_url}
+            alt={post.cover_image_alt || post.title}
+            fill
+            sizes="(min-width: 1101px) 33vw, (min-width: 561px) 50vw, 100vw"
+            unoptimized
+            className="object-cover"
+          />
+        </div>
       )}
       <div className="flex flex-1 flex-col p-5 min-[761px]:p-6">
         <div className="mb-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground">
